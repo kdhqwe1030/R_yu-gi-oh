@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background-color: black;
+        scroll-behavior: smooth;
+      }
+
+      header {
+        height: 64px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .left-header {
+        list-style: none;
+        display: flex;
+        margin-left: 10%;
+      }
+      .right-header {
+        list-style: none;
+        display: flex;
+        margin-right: 10%;
+      }
+      li {
+        margin: 5px 25px;
+      }
+      .bg-video {
+        width: 100%;
+        background-attachment: fixed;
+      }
+      .parent_div {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1000px;
+        width: 500px;
+        height: 500px;
+        background-color: red;
+        box-shadow: 4px 4px 4px 3px rgba(0, 0, 0, 0.4);
+      }
+      .child_div {
+        margin: 0% auto;
+        width: 300px;
+        height: 300px;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <ul class="left-header">
+        <li>홈 화면</li>
+        <li>카드 보기</li>
+        <li>카드 보기</li>
+      </ul>
+      <ul class="right-header">
+        <li>로그인</li>
+        <li>좋아요</li>
+        <li>내 정보</li>
+      </ul>
+    </header>
+    <div class="bg-video">
+      <video class="bg-video__content" autoplay muted loop>
+        <source src="{% static 'video.mp4' %}" type="video/mp4" />
+      </video>
+    </div>
+    <div class="parent_div">
+      <div class="child_div"></div>
+    </div>
+  </body>
+</html>
