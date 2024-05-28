@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- {% load static %} -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background-color: white;
+        scroll-behavior: smooth;
+      }
+      body::-webkit-scrollbar {
+        display: none;
+      }
+      ul {
+        list-style: none;
+      }
+      /* 맨 위 메뉴바의 스타일 */
+      #top-menu {
+        /* 상단 고정 */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        /* 디폴트로 불투명하게 설정 */
+        opacity: 0.5;
+        z-index: 10;
+      }
+
+      #top-menu:hover {
+        opacity: 1; /* 또렷하게 보이도록 불투명도를 1로 변경 */
+      }
+      #top-menu > a {
+        display: block; /* a태그는 글자성격 = inline */
+        float: left;
+        font-size: 30px;
+        font-weight: 900;
+        /* line-height: 10px; */
+        padding: 0 30px;
+        text-decoration: none;
+        color: #fff;
+        font-size: 15px;
+      }
+      #top-menu > ul > li > a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 15px;
+      }
+      #top-menu > ul {
+        float: right;
+      }
+      #top-menu > ul > li {
+        float: left;
+        padding: 0 30px;
+        line-height: 80px;
+      }
+      /* 중간 메뉴바의 스타일 */
+      #middle-menu {
+        left: 0;
+        width: 100%;
+        background-color: #666;
+        /* 디폴트로 불투명하게 설정 */
+        opacity: 0.5;
+        z-index: 10;
+      }
+      #middle-menu > a {
+        display: block; /* a태그는 글자성격 = inline */
+        float: left;
+        font-size: 30px;
+        font-weight: 900;
+        /* line-height: 10px; */
+        padding: 0 30px;
+        text-decoration: none;
+        color: #fff;
+        font-size: 15px;
+      }
+      #middle-menu > ul > li > a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 15px;
+      }
+      /* #middle-menu > ul {
+        float: right;
+      } */
+      #middle-menu > ul > li {
+        float: left;
+        padding: 0 30px;
+        line-height: 80px;
+      }
+      #middle-menu:hover {
+        opacity: 1; /* 또렷하게 보이도록 불투명도를 1로 변경 */
+      }
+
+      #middle-menu {
+        display: flex;
+        justify-content: space-between;
+      }
+      #middle-menu .center-logo-image {
+        position: relative;
+        animation: move 2s infinite;
+      }
+      @keyframes move {
+        0% {
+          top: 0px;
+        }
+        25% {
+          top: -5px;
+        }
+        75% {
+          top: -10px;
+        }
+        100% {
+          top: -5px;
+        }
+      }
+
+      .bg-video {
+        width: 100vw;
+        height: 100vh;
+        background-attachment: fixed;
+      }
+      .bg-video {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+      .bg-video__content {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* 스크롤 유도 표시 */
+
+      a {
+        padding-top: 60px;
+      }
+
+      a span {
+        position: absolute;
+        top: 80vh;
+        left: 50%;
+        width: 24px;
+        height: 24px;
+        margin-left: -12px;
+        border-left: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-animation: sdb 2s infinite;
+        animation: sdb 2s infinite;
+        box-sizing: border-box;
+        margin-bottom: 0;
+      }
+      a h2 {
+        color: white;
+        position: absolute;
+        margin: 0;
+        top: 85vh;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      @-webkit-keyframes sdb {
+        0% {
+          -webkit-transform: rotate(-45deg) translate(0, 0);
+        }
+        20% {
+          -webkit-transform: rotate(-45deg) translate(-10px, 10px);
+        }
+        40% {
+          -webkit-transform: rotate(-45deg) translate(0, 0);
+        }
+      }
+      @keyframes sdb {
+        0% {
+          transform: rotate(-45deg) translate(0, 0);
+        }
+        20% {
+          transform: rotate(-45deg) translate(-10px, 10px);
+        }
+        40% {
+          transform: rotate(-45deg) translate(0, 0);
+        }
+      }
+
+      .base_div {
+        margin-top: 250px;
+        height: auto;
+        width: 80vw;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #af8260;
+        border-radius: 20px;
+        display: flex;
+        flex-wrap: wrap; /* 줄바꿈을 위한 속성 */
+        justify-content: center; /* 중앙 정렬을 위해 추가 */
+      }
+
+      /* 카드 나타나기 */
+      .base_div .fade-wrap {
+        transition: 2s;
+        opacity: 0;
+
+        /* 왼쪽에서 오른쪽으로 나타나게 하기 위함 */
+        position: relative;
+        left: -50px;
+
+        margin-bottom: 20px;
+      }
+      .base_div .fade-wrap.fade-in {
+        opacity: 1;
+        left: 0;
+      }
+
+      .container {
+        width: 330px;
+        height: 465px;
+        transition: all 0.1s;
+        position: relative;
+        margin: 50px 60px;
+      }
+      .overlay {
+        position: absolute;
+        width: 330px;
+        height: 465px;
+        background: linear-gradient(
+          105deg,
+          transparent 40%,
+          rgba(255, 219, 112, 0.8) 45%,
+          rgba(132, 50, 255, 0.6) 50%,
+          transparent 54%
+        );
+        filter: brightness(1.1) opacity(0.8);
+        mix-blend-mode: color-dodge;
+        background-size: 150% 150%;
+        background-position: 100%;
+        transition: all 0.1s;
+      }
+      .card {
+        width: 330px;
+        height: 465px;
+        background-image: url('https://i.namu.wiki/i/4eQ5JInPI6zLlVXwA9i3LrSZ2BaSbkNTEiukMw4CkcyPUsQQyOZXMkV9QEKTACbMv1zoqnrDGYgvZPf8irAISsHcwuOfSof9oVl83bor-E4CK6GzmUoK6YsleE575kSRJkjULNOqVoKxV9fMQaeRfA.webp');
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="top-menu">
+      <a href="#"><img src="./logo.png" width="80" height="80" /></a>
+      <ul>
+        <li><a href="#">회원가입</a></li>
+        <li><a href="#">로그인</a></li>
+      </ul>
+    </header>
+
+    <div class="bg-video">
+      <video class="bg-video__content" autoplay muted loop>
+        <source src="./video.mp4" />
+      </video>
+    </div>
+    <header id="middle-menu">
+      <ul class="left-memu">
+        <li><a href="#">모든 덱 보기</a></li>
+        <li><a href="#">menu2</a></li>
+        <li><a href="#">menu3</a></li>
+        <li><a href="#">menu4</a></li>
+      </ul>
+      <ul class="center-logo">
+        <a href="#" class="center-logo-image"
+          ><img src="./logo.png" width="80" height="80"
+        /></a>
+      </ul>
+      <ul class="right-memu">
+        <li><a href="#">menu1</a></li>
+        <li><a href="#">menu2</a></li>
+        <li><a href="#">menu3</a></li>
+        <li><a href="#">회원가입</a></li>
+        <li><a href="#">로그인</a></li>
+      </ul>
+    </header>
+    <div id="scroll-link">
+      <a id="scroll-link_icon">
+        <span></span>
+        <h2 id="scroll-link_text">스크롤</h2>
+      </a>
+    </div>
+    <div class="base_div">
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      //스크롤 표시 클릭시에 아래 페이지로 이동
+      document
+        .getElementById('scroll-link_icon')
+        .addEventListener('click', function (event) {
+          event.preventDefault();
+          document.querySelector('.base_div').scrollIntoView({
+            behavior: 'smooth',
+          });
+        });
+      document
+        .getElementById('scroll-link_text')
+        .addEventListener('click', function (event) {
+          event.preventDefault();
+          document.querySelector('.base_div').scrollIntoView({
+            behavior: 'smooth',
+          });
+        });
+
+      //카드 나타나기
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('fade-in');
+            } else {
+              entry.target.classList.remove('fade-in');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      const targetElements = document.querySelectorAll('.fade-wrap');
+      targetElements.forEach((element) => {
+        observer.observe(element);
+      });
+
+      //카드 뒤집기
+
+      // var container = document.querySelector('.container');
+      // var overlay = document.querySelector('.overlay');
+      // container.addEventListener('mousemove', function (e) {
+      //   var x = e.offsetX;
+      //   var y = e.offsetY;
+      //   console.log(x, y);
+      //   var rotateY = (-2 / 11) * x + 30; // updated for width 330
+      //   var rotateX = (4 / 31) * y - 30; // updated for height 465
+
+      //   overlay.style = `background-position : ${
+      //     x / 5 + y / 5
+      //   }%; filter : opacity(${x / 200}) brightness(1.2)`;
+
+      //   container.style = `transform : perspective(350px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      // });
+
+      // container.addEventListener('mouseout', function () {
+      //   overlay.style = 'filter : opacity(0)';
+      //   container.style =
+      //     'transform : perspective(350px) rotateY(0deg) rotateX(0deg)';
+      // });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const containers = document.querySelectorAll('.container');
+
+        containers.forEach((container) => {
+          const overlay = container.querySelector('.overlay');
+
+          container.addEventListener('mousemove', function (e) {
+            var x = e.offsetX;
+            var y = e.offsetY;
+            var rotateY = (-2 / 11) * x + 30; // updated for width 330
+            var rotateX = (4 / 31) * y - 30; // updated for height 465
+
+            overlay.style = `background-position : ${
+              x / 5 + y / 5
+            }%; filter : opacity(${x / 200}) brightness(1.2)`;
+
+            container.style = `transform : perspective(350px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          });
+
+          container.addEventListener('mouseout', function () {
+            overlay.style = 'filter : opacity(0)';
+            container.style =
+              'transform : perspective(350px) rotateY(0deg) rotateX(0deg)';
+          });
+        });
+      });
+
+      // 맨 위 메뉴와 중간 메뉴 변수 할당
+      const topMenu = document.getElementById('top-menu');
+      const middleMenu = document.getElementById('middle-menu');
+
+      // 중간 메뉴바의 위치 계산
+      let middleMenuTop = middleMenu.offsetTop;
+      let middleMenuHeight = middleMenu.offsetHeight;
+
+      // 스크롤 이벤트 핸들러
+      window.addEventListener('scroll', function () {
+        // 스크롤하는 높이를 체크
+        let scrollPosition = window.scrollY;
+
+        // 스크롤하는 위치가 중간 메뉴보다 클 경우 (중간 메뉴보다 더 아래로 스크롤 할 경우)
+        if (scrollPosition >= middleMenuTop) {
+          // 맨 위 메뉴바의 display 속성을 none으로 변경
+
+          topMenu.style.display = 'none';
+
+          // 중간 메뉴바의 position을 맨 위 메뉴바의 속성으로 변경
+          middleMenu.style.position = 'fixed';
+          middleMenu.style.top = '0';
+          middleMenu.style.left = '0';
+          middleMenu.style.width = '100%';
+          middleMenu.style.opacity = 1;
+
+          // 중간 메뉴바의 투명도 이벤트 리스너 해제
+          middleMenu.removeEventListener('mouseover', setOpacityToOne);
+          middleMenu.removeEventListener('mouseout', setOpacityToHalf);
+        } else {
+          // 맨 위 메뉴바의 display 속성을 block으로 변경
+          topMenu.style.display = 'block';
+
+          // 중간 메뉴바를 다시 원래 속성으로 변경
+          middleMenu.style.position = 'static';
+          middleMenu.style.opacity = 0.5;
+
+          // 중간 메뉴바의 투명도 이벤트 리스너 등록
+          middleMenu.addEventListener('mouseover', setOpacityToOne);
+          middleMenu.addEventListener('mouseout', setOpacityToHalf);
+        }
+      });
+
+      // 투명도 1로 설정
+      function setOpacityToOne() {
+        middleMenu.style.opacity = '1';
+      }
+
+      // 투명도 0.5로 설정
+      function setOpacityToHalf() {
+        middleMenu.style.opacity = '0.5';
+      }
+    </script>
+  </body>
+</html>
+
+<!-- - 메뉴바 고정
+https://stickode.tistory.com/889 -->
+
+<!-- 배경 고정 
+  https://shynaunum.tistory.com/9
+https://velog.io/@joch2712/%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EA%B5%AC%ED%98%84
+https://moneytech.kr/106#google_vignette -->
