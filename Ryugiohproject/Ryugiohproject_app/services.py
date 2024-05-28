@@ -1,39 +1,76 @@
-# Ryugiohproject_app/services.py
-
 import requests
 from .models import Card
 from django.db import transaction
+import logging
+
+logger = logging.getLogger(__name__)
 
 class CardService:
 
     @staticmethod
     def fetch_and_save_card_data():
-        url = 'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Yugi'
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            if 'data' in data:
-                cards = data['data']
-                with transaction.atomic():
-                    for card in cards:
-                        Card.objects.update_or_create(
-                            id=card.get('id'),
-                            defaults={
-                                'name': card.get('name'),
-                                'type': card.get('type'),
-                                'frameType': card.get('frameType'),
-                                'desc': card.get('desc'),
-                                'atk': card.get('atk'),
-                                'defense': card.get('def'),
-                                'level': card.get('level'),
-                                'race': card.get('race'),
-                                'attribute': card.get('attribute'),
-                                'card_images': card.get('card_images'),
-                                'card_prices': card.get('card_prices'),
-                            }
-                        )
-                return {'message': 'Data successfully saved to database'}
+        urls = [
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Yugi',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Kaiba',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Joey',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Pegasus',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Obelisk%20the%20Tormentor',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Slifer%20the%20Sky%20Dragon',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=The%20Winged%20Dragon%20of%20Ra',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Exodia%20the%20Forbidden%20One',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Arm%20of%20the%20Forbidden%20One',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Leg%20of%20the%20Forbidden%20One',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Right%20Leg%20of%20the%20Forbidden%20One',
+        ]
+
+        all_cards = []
+
+        # Fetch data from all URLs
+        for url in urls:
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                if 'data' in data:
+                    all_cards.extend(data['data'])
+                else:
+                    error_message = f'Invalid data format from {url}'
+                    logger.error(error_message)
+                    return {'error': error_message}
             else:
-                return {'error': 'Invalid data format'}
-        else:
-            return {'error': f'Failed to retrieve data: {response.status_code}'}
+                error_message = f'Failed to retrieve data from {url}: {response.status_code}'
+                logger.error(error_message)
+                return {'error': error_message}
+
+        # Sort the cards by id and remove duplicates
+        all_cards.sort(key=lambda card: card['id'])
+        unique_cards = []
+        last_id = None
+        for card in all_cards:
+            if card['id'] != last_id:
+                unique_cards.append(card)
+                last_id = card['id']
+
+        # Save all unique card data to the database
+        try:
+            with transaction.atomic():
+                for card in unique_cards:
+                    Card.objects.update_or_create(
+                        id=card.get('id'),
+                        defaults={
+                            'name': card.get('name'),
+                            'type': card.get('type'),
+                            'frameType': card.get('frameType'),
+                            'desc': card.get('desc'),
+                            'atk': card.get('atk'),
+                            'defense': card.get('def'),
+                            'level': card.get('level'),
+                            'race': card.get('race'),
+                            'attribute': card.get('attribute'),
+                            'card_images': card.get('card_images'),
+                            'card_prices': card.get('card_prices'),
+                        }
+                    )
+            return {'message': 'Data successfully saved to database'}
+        except Exception as e:
+            logger.error(f'Error saving data to the database: {e}')
+            return {'error': 'Error saving data to the database'}
