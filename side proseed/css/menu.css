@@ -1,0 +1,116 @@
+#top-menu {
+  border-radius: 20px;
+  /* max-width: 90%; */
+  /* 상단 고정 */
+  position: fixed;
+
+  margin-top: 20px;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  background-color: #333;
+  /* 디폴트로 불투명하게 설정 */
+  opacity: 0.5;
+  z-index: 10;
+}
+
+#top-menu:hover {
+  opacity: 1; /* 또렷하게 보이도록 불투명도를 1로 변경 */
+}
+#top-menu > a {
+  display: block; /* a태그는 글자성격 = inline */
+  float: left;
+  font-size: 30px;
+  font-weight: 900;
+  /* line-height: 10px; */
+  padding: 0 30px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+#top-menu > ul > li > a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+#top-menu > ul {
+  float: right;
+}
+#top-menu > ul > li {
+  float: left;
+  padding: 0 30px;
+  line-height: 80px;
+}
+
+#middle-menu {
+  margin-top: 20px;
+  border-radius: 20px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #6f4e37;
+  opacity: 0.5;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: static; /* 기본 상태 */
+  width: auto; /* 기본 상태 */
+}
+
+#middle-menu.fixed {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  opacity: 1;
+}
+#middle-menu > a {
+  display: block; /* a태그는 글자성격 = inline */
+  float: left;
+  font-size: 30px;
+  font-weight: 900;
+  /* line-height: 10px; */
+  padding: 0 30px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+#middle-menu > ul > li > a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+/* #middle-menu > ul {
+    float: right;
+  } */
+#middle-menu > ul > li {
+  float: left;
+  padding: 0 30px;
+  line-height: 80px;
+}
+#middle-menu:hover {
+  opacity: 1; /* 또렷하게 보이도록 불투명도를 1로 변경 */
+}
+#middle-menu .center-logo {
+  margin-right: 12%;
+}
+#middle-menu .center-logo-image {
+  position: relative;
+  animation: move 2s infinite;
+}
+@keyframes move {
+  0% {
+    top: 0px;
+  }
+  25% {
+    top: -5px;
+  }
+  75% {
+    top: -10px;
+  }
+  100% {
+    top: -5px;
+  }
+}
