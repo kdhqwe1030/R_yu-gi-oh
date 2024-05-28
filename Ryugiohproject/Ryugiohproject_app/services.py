@@ -1,5 +1,5 @@
 import requests
-from .models import Card
+from .models import Card, CardSet
 from django.db import transaction
 import logging
 
@@ -21,6 +21,7 @@ class CardService:
             'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Arm%20of%20the%20Forbidden%20One',
             'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Leg%20of%20the%20Forbidden%20One',
             'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Right%20Leg%20of%20the%20Forbidden%20One',
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Blue-Eyes%20Ultimate%20Dragon'
         ]
 
         all_cards = []
@@ -54,7 +55,11 @@ class CardService:
         try:
             with transaction.atomic():
                 for card in unique_cards:
-                    Card.objects.update_or_create(
+                    # Get the first image URL
+                    image_url = card['card_images'][0]['image_url'] if card['card_images'] else None
+
+                    # Create or update the card
+                    card_obj, created = Card.objects.update_or_create(
                         id=card.get('id'),
                         defaults={
                             'name': card.get('name'),
@@ -66,10 +71,18 @@ class CardService:
                             'level': card.get('level'),
                             'race': card.get('race'),
                             'attribute': card.get('attribute'),
-                            'card_images': card.get('card_images'),
+                            'card_images': image_url,
                             'card_prices': card.get('card_prices'),
                         }
                     )
+
+                    # Check for specific set names in card_sets and create or update the sets
+                    for card_set in card.get('card_sets', []):
+                        if card_set['set_name'] in ['Starter Deck: Yugi', 'Starter Deck: Kaiba', 'Starter Deck: Joey', 'Starter Deck: Pegasus']:
+                            set_obj, set_created = CardSet.objects.update_or_create(
+                                set_name=card_set['set_name'],
+                            )
+                            card_obj.sets.add(set_obj)
             return {'message': 'Data successfully saved to database'}
         except Exception as e:
             logger.error(f'Error saving data to the database: {e}')
