@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Information</title>
+    <style>
+        /* 스타일 정의 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: black;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            height: 64px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .left-header {
+            list-style: none;
+            display: flex;
+            margin-left: 10%;
+        }
+        .right-header {
+            list-style: none;
+            display: flex;
+            margin-right: 10%;
+        }
+        li {
+            margin: 5px 25px;
+        }
+        .bg-video {
+            width: 100%;
+            background-attachment: fixed;
+        }
+        .parent_div {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1000px;
+            width: 500px;
+            height: 500px;
+            background-color: red;
+            box-shadow: 4px 4px 4px 3px rgba(0, 0, 0, 0.4);
+        }
+        .child_div {
+            margin: 0% auto;
+            width: 300px;
+            height: 300px;
+            background-color: blue;
+        }
+        .card {
+            margin: 10px;
+            padding: 10px;
+            background-color: white;
+            color: black;
+            text-align: center;
+        }
+        .card img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="left-header">
+            <li>홈 화면</li>
+            <li>카드 보기</li>
+            <li>카드 보기</li>
+        </ul>
+        <ul class="right-header">
+            <li>로그인</li>
+            <li>좋아요</li>
+            <li>내 정보</li>
+        </ul>
+    </header>
+    <div class="bg-video">
+        <video class="bg-video__content" autoplay muted loop>
+            <source src="{% static 'video.mp4' %}" type="video/mp4">
+        </video>
+    </div>
+    <div id="card-info" class="parent_div">
+        <div class="child_div"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch details for multiple card IDs
+            fetchCardDetails([10000000, 10000010, 10000020, 33396948, 7902349, 44519536, 23995346, 8124921]); 
+
+            // 특정 카드 ID 목록으로 카드 정보를 가져오는 함수
+            function fetchCardDetails(cardIds) {
+                const url = `/?ids=${cardIds.join('&ids=')}`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        // JSON 데이터를 사용하여 카드 정보를 표시합니다
+                        const cardInfoDiv = document.getElementById('card-info');
+                        cardInfoDiv.innerHTML = data.map(card => `
+                            <div class="card">
+                                <h2>${card.name}</h2>
+                                <img src="${card.card_images}" alt="${card.name}">
+                            </div>
+                        `).join('');
+                    })
+                    .catch(error => console.error('Error fetching card details:', error));
+            }
+        });
+    </script>
+</body>
+</html>
