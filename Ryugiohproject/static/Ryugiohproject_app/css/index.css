@@ -2,7 +2,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background-color: white;
+  background-color: #fed8b1;
   scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {
@@ -36,6 +36,7 @@ ul {
   width: 80vw;
   margin-left: auto;
   margin-right: auto;
+  background-color: #ecb176;
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap; /* 줄바꿈을 위한 속성 */
@@ -91,20 +92,35 @@ ul {
   left: 0;
 }
 
-
-.middle-header{
-  width: 100vw;
-  margin-top: 100px;
- text-align: center;
- background-color: yellow;
-height: 800px;
-background-image: url("../후보군 4.webp");
+.container {
+  width: 330px;
+  height: 465px;
+  transition: all 0.1s;
+  position: relative;
+  margin: 50px 60px;
 }
-.middle-header img {
-  max-width: 100%;
-  height: auto;
-  display: block; /* 블록 요소로 설정 */
+.overlay {
+  position: absolute;
+  width: 330px;
+  height: 465px;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 219, 112, 0.8) 45%,
+    rgba(132, 50, 255, 0.6) 50%,
+    transparent 54%
+  );
+  filter: brightness(1.1) opacity(0.8);
+  mix-blend-mode: color-dodge;
+  background-size: 150% 150%;
+  background-position: 100%;
+  transition: all 0.1s;
 }
-
+.card {
+  width: 330px;
+  height: 465px;
+  background-image: url('https://images.ygoprodeck.com/images/cards/23995346.jpg');
+  background-size: cover;
+}
 
 /* https://i.namu.wiki/i/4eQ5JInPI6zLlVXwA9i3LrSZ2BaSbkNTEiukMw4CkcyPUsQQyOZXMkV9QEKTACbMv1zoqnrDGYgvZPf8irAISsHcwuOfSof9oVl83bor-E4CK6GzmUoK6YsleE575kSRJkjULNOqVoKxV9fMQaeRfA.webp */

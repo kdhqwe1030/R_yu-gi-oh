@@ -1,3 +1,40 @@
+.dropdown{
+  position : relative;
+  display : inline-block;
+  color: white;
+}
+
+.dropdown-content{
+  display : none;
+  position : absolute;
+  transform: translateX(-20%);
+  z-index : 1; /*다른 요소들보다 앞에 배치*/
+  background-color: #6f4e37;
+  width: 230px;
+  border-radius: 15px;
+}
+
+.dropdown-content a{
+  display: block; 
+  float: left;
+  font-size: 30px;
+  font-weight: 900;
+  /* line-height: 10px; */
+  padding: 0 30px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+
+
+
 #top-menu {
   border-radius: 20px;
   /* max-width: 90%; */
