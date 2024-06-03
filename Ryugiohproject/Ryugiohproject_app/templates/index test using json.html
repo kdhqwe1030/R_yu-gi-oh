@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CardPedia</title>
+    <link href="{% static 'Ryugiohproject_app/logo.png' %}" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'Ryugiohproject_app/css/mainpage/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'Ryugiohproject_app/css/mainpage/menu.css' %}" />
+    <link rel="stylesheet" href="{% static 'Ryugiohproject_app/css/mainpage/scroll.css' %}" />
+    <link rel="stylesheet" href="{% static 'Ryugiohproject_app/css/card.css' %}" />
+    <link rel="stylesheet" href="{% static 'Ryugiohproject_app/css/footer.css' %}" />
+  </head>
+  <body>
+    <header id="top-menu">
+      <a href=""><img src="{% static 'Ryugiohproject_app/logo.png' %}" width="80" height="80" /></a>
+      <ul>
+        <li><a href="one.html">로그인</a></li>
+        <li><a href="one.html">회원가입</a></li>
+      </ul>
+    </header>
+
+    <div class="bg-video">
+      <video class="bg-video__content" autoplay muted loop>
+        <source src="{% static 'Ryugiohproject_app/video.mp4' %}" type="video/mp4" />
+      </video>
+    </div>
+    <header id="middle-menu">
+      <ul class="left-memu">
+        <li class="dropdown">
+          <span class="dropbtn">캐릭터 덱 보기</span>
+          <div class="dropdown-content">
+            <a href="eachCharacter?character=yugi">유우기</a>
+            <a href="eachCharacter?character=kaiba">카이바</a>
+            <a href="eachCharacter?character=joey">조이</a>
+            <a href="eachCharacter?character=pegasus">페가수스</a>
+        </div>
+        </li>
+        <li><a href="one.html">모든 카드 보기</a></li>
+        <li><a href="one.html">게임 가이드</a></li>
+      </ul>
+      <ul class="center-logo">
+        <a href="" class="center-logo-image"
+          ><img src="{% static 'Ryugiohproject_app/logo.png' %}" width="80" height="80"
+        /></a>
+      </ul>
+      <ul class="right-memu">
+        <li><a href="one.html">로그인</a></li>
+        <li><a href="one.html">회원가입</a></li>
+      </ul>
+    </header>
+    <div id="scroll-link">
+      <a id="scroll-link_icon">
+        <span></span>
+        <h2 id="scroll-link_text">스크롤</h2>
+      </a>
+    </div>
+    <section class="middle-header">
+    </section>
+    <setcion class="base_div">
+      <div class="base_text">
+        <h2>Egyptian God Cards</h2>
+          <br>
+        <span>Whosoever breaks this seal will know infinite power.</span>
+        <br><br>
+        <span class="line">Legend Cards</span>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="base_text">
+        <h2>삼환신</h2>
+          <br>
+        <span style="font-size: 40">어쩌구 저쩌구 카드 정보</span>
+        <br>
+        <span class="line">Legend Cards</span>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+
+      <script>
+         fetch('/api/main-cards/')
+          .then(response => response.json())
+          .then(data => {
+            console.log('카드 데이터:', data);
+            
+            // 받은 데이터를 바탕으로 backgroundImages 배열 채우기
+            const backgroundImages = data.map(card => `url(${card.card_images})`);
+
+            // 모든 .card 요소 선택
+            const cards = document.querySelectorAll('.card');
+
+            // 각 .card 요소에 배경 이미지 설정
+            cards.forEach((card, index) => {
+              card.style.backgroundImage = backgroundImages[index];
+            });
+          })
+          .catch(error => console.error('Error fetching card data:', error));
+
+
+      </script>
+
+
+
+      <div class="base_text">
+        <h2>삼환신</h2>
+          <br>
+        <span style="font-size: 40">어쩌구 저쩌구 카드 정보</span>
+        <br>
+        <span class="line">Legend Cards</span>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div class="card"></div>
+        </div>
+      </div>
+    </setcion>
+    <footer >
+      <p>
+        <br/>
+        <span>개인정보 처리방침 | 이용약관 </span><br/>
+        <span>All rights reserved @ CardPedia</span>
+
+      </p>
+      <nav>
+        <span>reference:</span>
+          <a href='https://jun-n.notion.site/c6338f7a0e624ed1ad7b7cc8a0634686?pvs=4' target='_blank'>Github</a>
+          <a href='https://github.com/kdhqwe1030/R_yu-gi-oh' target='_blank'>Notion-1</a><br><br>
+          <a href='https://github.com/kdhqwe1030/R_yu-gi-oh' target='_blank'>Notion-1</a><br><br>
+      </nav>
+    </footer>
+    <div class="play-button">
+      <i class="fas fa-play"></i>
+  </div>
+    <script src="{% static 'Ryugiohproject_app/js/card.js' %}"></script>
+    <script src="{% static 'Ryugiohproject_app/js/menu.js' %}"></script>
+    <script src="{% static 'Ryugiohproject_app/js/scroll.js' %}"></script>
+  </body>
+</html>

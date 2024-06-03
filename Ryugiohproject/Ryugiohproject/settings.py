@@ -16,7 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Ryugiohproject_app'
+    'Ryugiohproject_app',
+    'common'
 ]
 
 MIDDLEWARE = [
@@ -78,10 +79,12 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
-# Add the following if not already present
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 로그인 성공후 이동하는 URL
+LOGIN_REDIRECT_URL = '/' # 메인 페이지로 이동
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

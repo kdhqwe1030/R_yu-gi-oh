@@ -1,0 +1,25 @@
+footer {
+
+    margin-top: 30px;
+    border-top: 1px solid #cccccc; /* 연한 선 색상 지정 */
+    padding: 0 20px; /* 좌우 패딩 추가 */
+    text-align: center;
+    color: #888888;
+    font-size: 18px;
+}
+
+.play-button {
+    
+    width: 50px;
+    height: 50px;
+    background-color: #cccccc; /* 회색 배경색 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+}
+.play-button i {
+    color: #ffffff; /* 아이콘 색상 */
+    font-size: 24px; /* 아이콘 크기 */
+}

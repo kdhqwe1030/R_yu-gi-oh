@@ -67,16 +67,16 @@ window.addEventListener('scroll', function () {
   let scrollPosition = window.scrollY;
 
   // 스크롤하는 위치가 중간 메뉴보다 클 경우 (중간 메뉴보다 더 아래로 스크롤 할 경우)
-  if (scrollPosition >= middleMenuTop - 20) {
+  if (scrollPosition >= middleMenuTop ) {
     // 맨 위 메뉴바의 display 속성을 none으로 변경
     topMenu.style.display = 'none';
 
     // 중간 메뉴바에 fixed 클래스를 추가하여 고정
+    // 중간 메뉴바의 투명도 이벤트 리스너 해제
+    // middleMenu.removeEventListener('mouseover', setOpacityToOne);
+    // middleMenu.removeEventListener('mouseout', setOpacityToHalf);
     middleMenu.classList.add('fixed');
 
-    // 중간 메뉴바의 투명도 이벤트 리스너 해제
-    middleMenu.removeEventListener('mouseover', setOpacityToOne);
-    middleMenu.removeEventListener('mouseout', setOpacityToHalf);
   } else {
     // 맨 위 메뉴바의 display 속성을 block으로 변경
     topMenu.style.display = 'block';
@@ -85,8 +85,8 @@ window.addEventListener('scroll', function () {
     middleMenu.classList.remove('fixed');
 
     // 중간 메뉴바의 투명도 이벤트 리스너 등록
-    middleMenu.addEventListener('mouseover', setOpacityToOne);
-    middleMenu.addEventListener('mouseout', setOpacityToHalf);
+    // middleMenu.addEventListener('mouseover', setOpacityToOne);
+    // middleMenu.addEventListener('mouseout', setOpacityToHalf);
   }
 });
 

@@ -12,15 +12,11 @@
     />
     <link
       rel="stylesheet"
-      href="{% static 'Ryugiohproject_app/css/mainpage/index.css' %}"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/index.css' %}"
     />
     <link
       rel="stylesheet"
-      href="{% static 'Ryugiohproject_app/css/mainpage/menu.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'Ryugiohproject_app/css/mainpage/scroll.css' %}"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/menu.css' %}"
     />
     <link
       rel="stylesheet"
@@ -215,30 +211,6 @@
     </style>
   </head>
   <body>
-    <header id="top-menu">
-      <a href="/"
-        ><img
-          src="{% static 'Ryugiohproject_app/logo.png' %}"
-          width="80"
-          height="80"
-      /></a>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'my_page' %}">마이페이지</a></li>
-        {% else %}
-        <li><a href="#">로그인 / 회원가입</a></li>
-        {% endif %}
-      </ul>
-    </header>
-
-    <div class="bg-video">
-      <video class="bg-video__content" autoplay muted loop>
-        <source
-          src="{% static 'Ryugiohproject_app/video.mp4' %}"
-          type="video/mp4"
-        />
-      </video>
-    </div>
     <header id="middle-menu">
       <ul class="left-memu">
         <li class="dropdown">
@@ -269,12 +241,6 @@
         {% endif %}
       </ul>
     </header>
-    <div id="scroll-link">
-      <a id="scroll-link_icon">
-        <span></span>
-        <h2 id="scroll-link_text">스크롤</h2>
-      </a>
-    </div>
     <section class="middle-header"></section>
     <setcion class="base_div">
       <div class="base_text">
@@ -285,174 +251,79 @@
         <span class="line">Legend Cards</span>
       </div>
 
-      <div class="exodia">
-        {% for exodiaCard in exodia %}
-        <div class="fade-wrap">
-          <div class="container">
-            <div class="overlay"></div>
-            <div
-              class="card"
-              style="background-image: url('{{ exodiaCard.card_images }}');"
-            ></div>
-          </div>
-          <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
+      {% for card in card_data %}
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div
+            class="card"
+            style="background-image: url('{{ card.card_images }}');"
+          ></div>
         </div>
+        <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
+      </div>
 
-        <div class="modal">
-          <div class="modal_body">
-            <span class="close-modal">X</span>
-            <h2 class="modal-title">{{exodiaCard.name}}</h2>
-            <div class="modal-content">
-              <div class="fade-wrap">
-                <div class="container">
-                  <div class="overlay"></div>
-                  <div
-                    class="card"
-                    style="background-image: url('{{ exodiaCard.card_images }}');"
-                  ></div>
-                </div>
+      <div class="modal">
+        <div class="modal_body">
+          <span class="close-modal">X</span>
+          <h2 class="modal-title">{{card.name}}</h2>
+          <div class="modal-content">
+            <div class="fade-wrap">
+              <div class="container">
+                <div class="overlay"></div>
+                <div
+                  class="card"
+                  style="background-image: url('{{ card.card_images }}');"
+                ></div>
               </div>
-              <div class="card_info">
-                <table>
-                  <colgroup>
-                    <col class="narrow" />
-                    <col class="wide" />
-                    <col class="narrow" />
-                    <col class="wide" />
-                  </colgroup>
+            </div>
+            <div class="card_info">
+              <table>
+                <colgroup>
+                  <col class="narrow" />
+                  <col class="wide" />
+                  <col class="narrow" />
+                  <col class="wide" />
+                </colgroup>
+                <tr>
+                  <td class="table_highlight">속성</td>
+                  <td>{{card.attribute}}</td>
+                  <td class="table_highlight">레벨</td>
+                  <td>{{card.level}}</td>
+                </tr>
+                <tr>
+                  <td class="table_highlight">공격력</td>
+                  <td>{{card.atk}}</td>
+                  <td class="table_highlight">수비력</td>
+                  <td>{{card.defense}}</td>
+                </tr>
+                <tfoot>
                   <tr>
-                    <td class="table_highlight">속성</td>
-                    <td>{{exodiaCard.attribute}}</td>
-                    <td class="table_highlight">레벨</td>
-                    <td>{{exodiaCard.level}}</td>
+                    <td colspan="4">{{card.type}}/{{card.race}}</td>
                   </tr>
-                  <tr>
-                    <td class="table_highlight">공격력</td>
-                    <td>{{exodiaCard.atk}}</td>
-                    <td class="table_highlight">수비력</td>
-                    <td>{{exodiaCard.defense}}</td>
-                  </tr>
-                  <tfoot>
-                    <tr>
-                      <td colspan="4">
-                        {{exodiaCard.type}}/{{exodiaCard.race}}
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-                <table class="card_info_desc">
-                  <tr>
-                    <td class="table_highlight">카드 설명</td>
-                  </tr>
-                  <tr>
-                    <td>{{exodiaCard.desc}}</td>
-                  </tr>
-                </table>
-                <div class="card_info_price">
-                  <span>ebay: {{ exodiaCard.card_prices.0.ebay_price }}</span
-                  ><br />
-                  <span
-                    >amazon: {{ exodiaCard.card_prices.0.amazon_price }}</span
-                  ><br />
-                </div>
+                </tfoot>
+              </table>
+              <table class="card_info_desc">
+                <tr>
+                  <td class="table_highlight">카드 설명</td>
+                </tr>
+                <tr>
+                  <td>{{card.desc}}</td>
+                </tr>
+              </table>
+              <div class="card_info_price">
+                <span>ebay: {{ card.card_prices.0.ebay_price }}</span><br />
+                <span>amazon: {{ card.card_prices.0.amazon_price }}</span><br />
+              </div>
 
-                <div class="heart-button">
-                  <ion-icon name="heart"></ion-icon>
-                </div>
+              <div class="heart-button">
+                <ion-icon name="heart"></ion-icon>
               </div>
             </div>
           </div>
         </div>
-        {% endfor %}
       </div>
-
-      <div class="base_text">
-        <h2>Three Gods</h2>
-        <br />
-        <span>good boy</span>
-        <br /><br />
-        <span class="line">Legend Cards</span>
-      </div>
-
-      <div class="threegod">
-        {% for threegodCard in threegod %}
-        <div class="fade-wrap">
-          <div class="container">
-            <div class="overlay"></div>
-            <div
-              class="card"
-              style="background-image: url('{{ threegodCard.card_images }}');"
-            ></div>
-          </div>
-          <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
-        </div>
-
-        <div class="modal">
-          <div class="modal_body">
-            <span class="close-modal">X</span>
-            <h2 class="modal-title">{{threegodCard.name}}</h2>
-            <div class="modal-content">
-              <div class="fade-wrap">
-                <div class="container">
-                  <div class="overlay"></div>
-                  <div
-                    class="card"
-                    style="background-image: url('{{ threegodCard.card_images }}');"
-                  ></div>
-                </div>
-              </div>
-              <div class="card_info">
-                <table>
-                  <colgroup>
-                    <col class="narrow" />
-                    <col class="wide" />
-                    <col class="narrow" />
-                    <col class="wide" />
-                  </colgroup>
-                  <tr>
-                    <td class="table_highlight">속성</td>
-                    <td>{{threegodCard.attribute}}</td>
-                    <td class="table_highlight">레벨</td>
-                    <td>{{threegodCard.level}}</td>
-                  </tr>
-                  <tr>
-                    <td class="table_highlight">공격력</td>
-                    <td>{{threegodCard.atk}}</td>
-                    <td class="table_highlight">수비력</td>
-                    <td>{{threegodCard.defense}}</td>
-                  </tr>
-                  <tfoot>
-                    <tr>
-                      <td colspan="4">
-                        {{threegodCard.type}}/{{threegodCard.race}}
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-                <table class="card_info_desc">
-                  <tr>
-                    <td class="table_highlight">카드 설명</td>
-                  </tr>
-                  <tr>
-                    <td>{{threegodCard.desc}}</td>
-                  </tr>
-                </table>
-                <div class="card_info_price">
-                  <span>ebay: {{ threegodCard.card_prices.0.ebay_price }}</span
-                  ><br />
-                  <span
-                    >amazon: {{ threegodCard.card_prices.0.amazon_price }}</span
-                  ><br />
-                </div>
-                <div class="heart-button">
-                  <ion-icon name="heart"></ion-icon>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
+      {% endfor %}
     </setcion>
     <footer>
       <p>

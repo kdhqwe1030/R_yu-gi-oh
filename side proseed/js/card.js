@@ -7,7 +7,7 @@ function loadCSS(filename) {
   document.getElementsByTagName('head')[0].appendChild(link);
 }
 
-loadCSS('./css/index.css');
+loadCSS('./css/index.cs');
 loadCSS('./css/menu.css');
 loadCSS('./css/scroll.css');
 

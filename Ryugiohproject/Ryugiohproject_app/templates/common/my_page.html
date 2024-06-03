@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Page</title>
+    </head>
+    <body>
+        <h1>Personal Information</h1>
+        <ul>
+            <li>ID: {{ info.username }}</li>
+            <li>Name: {{ info.name }}</li>
+            <li>Email: {{ info.email }}</li>
+        </ul>
+        <ul>
+            {%for like in info.like_list%}
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <p>Card Name: {{ like.card.name }}</p>
+                <p>Type: {{ like.card.type }}</p>
+                <p>Frame Type: {{ like.card.frameType }}</p>
+                <p>Description: {{ like.card.desc }}</p>
+                <p>Attack: {{ like.card.atk }}</p>
+                <p>Defense: {{ like.card.defense }}</p>
+                <p>Level: {{ like.card.level }}</p>
+                <p>Race: {{ like.card.race }}</p>
+                <p>Attribute: {{ like.card.attribute }}</p>
+                <p>Card Images: {{ like.card.card_images }}</p>
+                <p>Card Prices: {{ like.card.card_prices }}</p>
+            </div>
+            {%endfor%}
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CardPedia</title>
+    <link
+      href="{% static 'Ryugiohproject_app/logo.png' %}"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/index.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/menu.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/card.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/footer.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/modal.css' %}"
+    />
+  </head>
+  <body>
+    <header id="middle-menu">
+      <ul class="left-memu">
+        <li class="dropdown">
+          <span class="dropbtn">캐릭터 덱 보기</span>
+          <div class="dropdown-content">
+            <a href="?character=yugi">유우기</a>
+            <a href="?character=kaiba">카이바</a>
+            <a href="?character=joey">조이</a>
+            <a href="?character=pegasus">페가수스</a>
+          </div>
+        </li>
+        <li><a href="one.html">모든 카드 보기</a></li>
+        <li><a href="one.html">게임 가이드</a></li>
+      </ul>
+      <ul class="center-logo">
+        <a href="" class="center-logo-image">
+          <img
+            src="{% static 'Ryugiohproject_app/logo.png' %}"
+            width="80"
+            height="80"
+          />
+        </a>
+      </ul>
+      <ul class="right-memu">
+        <li><a href="one.html">로그인</a></li>
+        <li><a href="one.html">회원가입</a></li>
+      </ul>
+    </header>
+
+    <section class="middle-header"></section>
+
+    <section class="base_div">
+      <div class="base_text">
+        <h1>{{ character_info.name }}</h1>
+        <p>{{ character_info.description }}</p>
+        <h2>Deck: {{ character_info.deck }}</h2>
+
+        {% for card in card_data %}
+        <div class="fade-wrap">
+          <div class="container">
+            <div class="overlay"></div>
+            <div
+              class="card"
+              style="background-image: url('{{ card.card_images }}');"
+            ></div>
+          </div>
+          <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
+        </div>
+
+        <div class="modal">
+          <div class="modal_body">
+            <span class="close-modal">X</span>
+            <h2 class="modal-title">{{card.name}}</h2>
+            <div class="modal-content">
+              <div class="fade-wrap">
+                <div class="container">
+                  <div class="overlay"></div>
+                  <div
+                    class="card"
+                    style="background-image: url('{{ card.card_images }}');"
+                  ></div>
+                </div>
+              </div>
+              <div class="card_info">
+                <table>
+                  <colgroup>
+                    <col class="narrow" />
+                    <col class="wide" />
+                    <col class="narrow" />
+                    <col class="wide" />
+                  </colgroup>
+                  <tr>
+                    <td class="table_highlight">속성</td>
+                    <td>{{card.attribute}}</td>
+                    <td class="table_highlight">레벨</td>
+                    <td>{{card.level}}</td>
+                  </tr>
+                  <tr>
+                    <td class="table_highlight">공격력</td>
+                    <td>{{card.atk}}</td>
+                    <td class="table_highlight">수비력</td>
+                    <td>{{card.defense}}</td>
+                  </tr>
+                  <tfoot>
+                    <tr>
+                      <td colspan="4">{{card.type}}/{{card.race}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+                <table class="card_info_desc">
+                  <tr>
+                    <td class="table_highlight">카드 설명</td>
+                  </tr>
+                  <tr>
+                    <td>{{card.desc}}</td>
+                  </tr>
+                </table>
+                <div class="card_info_price">
+                  <span>ebay: {{ card.card_prices.0.ebay_price }}</span><br />
+                  <span>amazon: {{ card.card_prices.0.amazon_price }}</span
+                  ><br />
+                </div>
+
+                <div class="heart-button">
+                  <ion-icon name="heart"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <h3>Cards</h3>
+        <ul></ul>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <br />
+        <span>개인정보 처리방침 | 이용약관 </span><br />
+        <span>All rights reserved @ CardPedia</span>
+      </p>
+      <nav>
+        <span>reference:</span>
+        <a href="https://github.com/kdhqwe1030/R_yu-gi-oh" target="_blank"
+          >Github</a
+        >
+        <a
+          href="https://jun-n.notion.site/c6338f7a0e624ed1ad7b7cc8a0634686?pvs=4"
+          target="_blank"
+          >Notion-1</a
+        >
+        <a
+          href="https://oxidized-ermine-630.notion.site/a14cd1a3d000462f9489936e1c052372?pvs=4"
+          target="_blank"
+          >Notion-2</a
+        ><br /><br />
+      </nav>
+    </footer>
+
+    <script src="{% static 'Ryugiohproject_app/js/eachCharacter.js' %}"></script>
+  </body>
+</html>

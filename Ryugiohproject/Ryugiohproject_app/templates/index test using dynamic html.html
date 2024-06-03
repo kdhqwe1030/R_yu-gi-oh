@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CardPedia</title>
+    <link
+      href="{% static 'Ryugiohproject_app/logo.png' %}"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/mainpage/index.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/mainpage/menu.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/mainpage/scroll.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/card.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/footer.css' %}"
+    />
+  </head>
+  <body>
+    <header id="top-menu">
+      <a href="">
+        <img
+          src="{% static 'Ryugiohproject_app/logo.png' %}"
+          width="80"
+          height="80"
+        />
+      </a>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        {% else %}
+        <li><a href="#">로그인 / 회원가입</a></li>
+        {% endif %}
+      </ul>
+    </header>
+
+    <div class="bg-video">
+      <video class="bg-video__content" autoplay muted loop>
+        <source
+          src="{% static 'Ryugiohproject_app/video.mp4' %}"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+    <header id="middle-menu">
+      <ul class="left-memu">
+        <li class="dropdown">
+          <span class="dropbtn">캐릭터 덱 보기</span>
+          <div class="dropdown-content">
+            <a href="eachCharacter?character=yugi">유우기</a>
+            <a href="eachCharacter?character=kaiba">카이바</a>
+            <a href="eachCharacter?character=joey">조이</a>
+            <a href="eachCharacter?character=pegasus">페가수스</a>
+          </div>
+        </li>
+        <li><a href="one.html">모든 카드 보기</a></li>
+        <li><a href="one.html">게임 가이드</a></li>
+      </ul>
+      <ul class="center-logo">
+        <a href="" class="center-logo-image">
+          <img
+            src="{% static 'Ryugiohproject_app/logo.png' %}"
+            width="80"
+            height="80"
+          />
+        </a>
+      </ul>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        {% else %}
+        <li><a href="#">로그인 / 회원가입</a></li>
+        {% endif %}
+      </ul>
+    </header>
+    <div id="scroll-link">
+      <a id="scroll-link_icon">
+        <span></span>
+        <h2 id="scroll-link_text">스크롤</h2>
+      </a>
+    </div>
+    <section class="middle-header"></section>
+    <section class="base_div">
+      <div class="base_text">
+        <h2>Egyptian God Cards</h2>
+        <br />
+        <span>Whosoever breaks this seal will know infinite power.</span>
+        <br /><br />
+        <span class="line">Legend Cards</span>
+      </div>
+      <div class="exodia"></div>
+      <div class="base_text">
+        <h2>삼환신</h2>
+        <br />
+        <span style="font-size: 40">어쩌구 저쩌구 카드 정보</span>
+        <br />
+        <span class="line">Legend Cards</span>
+      </div>
+      <div class="threegod"></div>
+    </section>
+    <footer>
+      <p>
+        <br />
+        <span>개인정보 처리방침 | 이용약관 </span><br />
+        <span>All rights reserved @ CardPedia</span>
+      </p>
+      <nav>
+        <span>reference:</span>
+        <a
+          href="https://jun-n.notion.site/c6338f7a0e624ed1ad7b7cc8a0634686?pvs=4"
+          target="_blank"
+          >Github</a
+        >
+        <a href="https://github.com/kdhqwe1030/R_yu-gi-oh" target="_blank"
+          >Notion-1</a
+        ><br /><br />
+        <a href="https://github.com/kdhqwe1030/R_yu-gi-oh" target="_blank"
+          >Notion-1</a
+        ><br /><br />
+      </nav>
+    </footer>
+    <div class="play-button">
+      <i class="fas fa-play"></i>
+    </div>
+    <script src="{% static 'Ryugiohproject_app/js/card.js' %}"></script>
+    <script src="{% static 'Ryugiohproject_app/js/menu.js' %}"></script>
+    <script src="{% static 'Ryugiohproject_app/js/scroll.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // CSS 파일 로드
+        function loadCSS(filename) {
+          var link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.type = "text/css";
+          link.href = filename;
+          document.getElementsByTagName("head")[0].appendChild(link);
+        }
+
+        loadCSS("{% static 'Ryugiohproject_app/css/mainpage/index.css' %}");
+        loadCSS("{% static 'Ryugiohproject_app/css/mainpage/menu.css' %}");
+        loadCSS("{% static 'Ryugiohproject_app/css/mainpage/scroll.css' %}");
+        loadCSS("{% static 'Ryugiohproject_app/css/card.css' %}");
+
+        // 카드 나타나기
+        const observer = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("fade-in");
+              } else {
+                entry.target.classList.remove("fade-in");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        fetch("/api/main-cards/")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("카드 데이터:", data);
+
+            const exodiaContainer = document.querySelector(".exodia");
+            const threegodContainer = document.querySelector(".threegod");
+
+            data.forEach((card, index) => {
+              const cardElement = document.createElement("div");
+              cardElement.className = "fade-wrap";
+
+              cardElement.innerHTML = `
+                <div class="container">
+                  <div class="overlay"></div>
+                  <div class="card" style="background-image: url(${card.card_images});"></div>
+                </div>
+              `;
+
+              if (index < 5) {
+                exodiaContainer.appendChild(cardElement);
+              } else {
+                threegodContainer.appendChild(cardElement);
+              }
+              observer.observe(cardElement);
+
+              // 이벤트 핸들러 설정
+              const container = cardElement.querySelector(".container");
+              const overlay = container.querySelector(".overlay");
+
+              overlay.style.opacity = "0";
+
+              container.addEventListener("mousemove", function (e) {
+                var x = e.offsetX;
+                var y = e.offsetY;
+                var rotateY = (-2 / 11) * x + 30;
+                var rotateX = (4 / 31) * y - 30;
+
+                overlay.style = `background-position : ${
+                  x / 5 + y / 5
+                }%; filter : opacity(${x / 200}) brightness(1.2)`;
+
+                container.style = `transform : perspective(350px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+              });
+
+              container.addEventListener("mouseout", function () {
+                overlay.style = "filter : opacity(0)";
+                container.style =
+                  "transform : perspective(350px) rotateY(0deg) rotateX(0deg)";
+              });
+            });
+          })
+          .catch((error) => console.error("Error fetching card data:", error));
+      });
+    </script>
+  </body>
+</html>

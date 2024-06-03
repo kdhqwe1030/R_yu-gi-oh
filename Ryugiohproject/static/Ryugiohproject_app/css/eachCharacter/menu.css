@@ -1,0 +1,106 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+  color: white;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  transform: translateX(-20%);
+  z-index: 1; /*다른 요소들보다 앞에 배치*/
+  background-color: #6f4e37;
+  width: 230px;
+  border-radius: 15px;
+}
+
+.dropdown-content a {
+  display: block;
+  float: left;
+  font-size: 30px;
+  font-weight: 900;
+  /* line-height: 10px; */
+  padding: 0 30px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+#middle-menu {
+  position: fixed; /* fixed로 설정하여 페이지 전체에서 고정 */
+  top: 15px; /* 상단에서 고정될 위치 */
+  left: 50%; /* 중앙 정렬을 위해 추가 */
+  transform: translateX(-50%); /* 중앙 정렬을 위해 추가 */
+  z-index: 1000; /* 다른 요소들보다 위에 나타나도록 설정 */
+  margin-top: 0; /* margin-top을 제거 */
+  border-radius: 20px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #6f4e37;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%; /* 중앙 정렬을 위해 너비를 고정 */
+}
+
+#middle-menu.fixed {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  opacity: 1;
+}
+#middle-menu > a {
+  display: block; /* a태그는 글자성격 = inline */
+  float: left;
+  font-size: 30px;
+  font-weight: 900;
+  /* line-height: 10px; */
+  padding: 0 30px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+#middle-menu > ul > li > a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+}
+/* #middle-menu > ul {
+      float: right;
+    } */
+#middle-menu > ul > li {
+  float: left;
+  padding: 0 30px;
+  line-height: 80px;
+}
+#middle-menu:hover {
+  opacity: 1; /* 또렷하게 보이도록 불투명도를 1로 변경 */
+}
+#middle-menu .center-logo {
+  margin-right: 16%;
+}
+#middle-menu .center-logo-image {
+  position: relative;
+  animation: move 2s infinite;
+}
+@keyframes move {
+  0% {
+    top: 0px;
+  }
+  25% {
+    top: -5px;
+  }
+  75% {
+    top: -10px;
+  }
+  100% {
+    top: -5px;
+  }
+}
