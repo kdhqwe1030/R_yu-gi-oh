@@ -11,8 +11,6 @@ from django.shortcuts import get_object_or_404
 
 import json
 
-
-
 # Create your views here.
 def register(request):
     if request.method == "POST":

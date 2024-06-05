@@ -57,7 +57,6 @@ def eachCharacter(request):
     return render(request, 'eachCharacter.html', {'character_info': character_info, 'card_data': card_data})
 
 
-
 # Main page view
 def main_cards(request):
     card_ids = [70903634, 33396948, 7902349, 8124921, 44519536, 10000000, 10000010, 10000020, 23995346]
@@ -108,6 +107,23 @@ def all_cards(request):
 
     return render(request, 'allCard.html', {'card_data':card_data})
 
+def all_cards_JSON(request):
+    cards = Card.objects.all()
+    card_data = [{
+        'id': card.id,
+        'name': card.name,
+        'type': card.type,
+        'frameType': card.frameType,
+        'desc': card.desc,
+        'atk': card.atk,
+        'defense': card.defense,
+        'level': card.level,
+        'race': card.race,
+        'attribute': card.attribute,
+        'card_images': card.card_images,
+        'card_prices': card.card_prices,
+    } for card in cards]
+    return JsonResponse(card_data, safe=False)
 
 
 
