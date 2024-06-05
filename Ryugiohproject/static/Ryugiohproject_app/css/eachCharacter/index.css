@@ -104,17 +104,16 @@ ul {
   left: 0;
 }
 
-.middle-header {
+.middle-header{
   width: 100vw;
-  margin-top: 200px;
+  margin-top: 220px;
   background-position: center center;
   background-color: yellow;
   height: 580px;
-  background-image: url('/static/main_banner.png');
+  background-image: url("/static/main_banner.png");
   background-repeat: no-repeat;
   background-color: black;
 }
-
 .middle-header img {
   max-width: 100%;
   height: auto;

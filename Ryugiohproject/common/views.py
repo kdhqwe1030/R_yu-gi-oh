@@ -4,6 +4,12 @@ from common.forms import UserForm
 
 from Ryugiohproject_app.models import Card
 from .models import LikeList
+from django.http import JsonResponse
+
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+
+import json
 
 
 
@@ -26,19 +32,50 @@ def register(request):
 
     return render(request, 'common/login.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+# def like_toggle(request):
+#     user = request.user
+#     card_id = request.GET.get('card_id', 4031928)
+#     card = Card.objects.get(id=card_id)
+
+#     if not LikeList.objects.filter(user=user, card=card).exists():
+#         LikeList(user=user, card=card).save()
+#         result = 'like'
+#     else:
+#         LikeList.objects.filter(user=user, card=card).delete()
+#         result = 'unlike'
+
+#     return render(request, 'common/like.html')
+
+@csrf_exempt
 def like_toggle(request):
-    user = request.user
-    card_id = request.GET.get('card_id', 4031928)
-    card = Card.objects.get(id=card_id)
+    data = json.loads(request.body)
+    card_id = data.get('card_id')
 
-    if not LikeList.objects.filter(user=user, card=card).exists():
-        LikeList(user=user, card=card).save()
-        result = 'like'
+    if request.method == 'POST':
+        user = request.user
+        card = get_object_or_404(Card, id=card_id)
+
+        try:
+            like = LikeList.objects.get(user=user, card=card)
+            like.delete()
+            result = 'unlike'
+        except LikeList.DoesNotExist:
+            LikeList.objects.create(user=user, card=card)
+            result = 'like'
+
+        return JsonResponse({'result': result})
     else:
-        LikeList.objects.filter(user=user, card=card).delete()
-        result = 'unlike'
+        return JsonResponse({'error': card_id}, status=400)
 
-    return render(request, 'common/like.html')
+def like_status(request, card_id):
+    user = request.user
+    card = get_object_or_404(Card, id=card_id)
+    liked = LikeList.objects.filter(user=user, card=card).exists()
+    return JsonResponse({'liked': liked})
 
 def mypage(request):
     user = request.user
