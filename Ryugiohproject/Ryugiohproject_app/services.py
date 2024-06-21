@@ -10,19 +10,20 @@ class CardService:
     @staticmethod
     def fetch_and_save_card_data():
         urls = [
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Yugi',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Kaiba',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Joey',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Pegasus',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Obelisk%20the%20Tormentor',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Slifer%20the%20Sky%20Dragon',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=The%20Winged%20Dragon%20of%20Ra',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Exodia%20the%20Forbidden%20One',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Right%20Arm%20of%20the%20Forbidden%20One',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Arm%20of%20the%20Forbidden%20One',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Leg%20of%20the%20Forbidden%20One',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Right%20Leg%20of%20the%20Forbidden%20One',
-            'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Blue-Eyes%20Ultimate%20Dragon'
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Yugi',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Kaiba',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Joey',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?cardset=Starter%20Deck:%20Pegasus',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Obelisk%20the%20Tormentor',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Slifer%20the%20Sky%20Dragon',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=The%20Winged%20Dragon%20of%20Ra',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Exodia%20the%20Forbidden%20One',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Right%20Arm%20of%20the%20Forbidden%20One',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Arm%20of%20the%20Forbidden%20One',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Left%20Leg%20of%20the%20Forbidden%20One',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Right%20Leg%20of%20the%20Forbidden%20One',
+            # 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Blue-Eyes%20Ultimate%20Dragon'
+            'https://db.ygoprodeck.com/api/v7/cardinfo.php'
         ]
 
         all_cards = []

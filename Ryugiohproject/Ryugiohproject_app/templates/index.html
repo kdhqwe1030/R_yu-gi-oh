@@ -30,6 +30,10 @@
       rel="stylesheet"
       href="{% static 'Ryugiohproject_app/css/footer.css' %}"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <style>
       /* 모달모달모달모달 */
       /* 모달모달모달모달 */
@@ -208,9 +212,39 @@
         text-align: left;
       }
       .card_info_price {
-        padding-left: 30%;
         margin-top: 30px;
         font-size: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .price-item {
+        margin: 5px 0;
+      }
+
+      .price-label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .play-button {
+        width: 50px;
+        height: 50px;
+        background-color: grey;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 추가 */
+      }
+
+      .play-button i {
+        color: white;
+        font-size: 24px;
       }
     </style>
   </head>
@@ -225,8 +259,9 @@
       <ul>
         {% if user.is_authenticated %}
         <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        <li><a href="{% url 'logout' %}">로그아웃</a></li>
         {% else %}
-        <li><a href="#">로그인 / 회원가입</a></li>
+        <li><a href="{% url 'login' %}">로그인 / 회원가입</a></li>
         {% endif %}
       </ul>
     </header>
@@ -251,7 +286,7 @@
           </div>
         </li>
         <li><a href="allCards">모든 카드 보기</a></li>
-        <li><a href="one.html">게임 가이드</a></li>
+        <li><a href="gameGuide">게임 가이드</a></li>
       </ul>
       <ul class="center-logo">
         <a href="/" class="center-logo-image"
@@ -264,8 +299,9 @@
       <ul>
         {% if user.is_authenticated %}
         <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        <li><a href="{% url 'logout' %}">로그아웃</a></li>
         {% else %}
-        <li><a href="#">로그인 / 회원가입</a></li>
+        <li><a href="{% url 'login' %}">로그인 / 회원가입</a></li>
         {% endif %}
       </ul>
     </header>
@@ -278,11 +314,14 @@
     <section class="middle-header"></section>
     <setcion class="base_div">
       <div class="base_text">
-        <h2>Egyptian God Cards</h2>
+        <h2>왕궁의 수호신 엑조디아</h2>
         <br />
-        <span>Whosoever breaks this seal will know infinite power.</span>
+        <span
+          >"<b>고대의 마신</b>이여, 봉인된 다섯 몸을 해방하여 나에게 힘을 다오!
+          나와라, <b>고대의 마신!</b> 소환신 <b>엑조디아!"</b>
+        </span>
         <br /><br />
-        <span class="line">Legend Cards</span>
+        <span class="line"><b>Forbidden Exodia</b></span>
       </div>
 
       <div class="exodia">
@@ -349,15 +388,26 @@
                   </tr>
                 </table>
                 <div class="card_info_price">
-                  <span>ebay: {{ exodiaCard.card_prices.0.ebay_price }}</span
-                  ><br />
-                  <span
-                    >amazon: {{ exodiaCard.card_prices.0.amazon_price }}</span
-                  ><br />
+                  <div class="price-item">
+                    <span class="price-label"><br /><br />eBay:</span>
+                    <span class="price-value"
+                      >{{ exodiaCard.card_prices.0.ebay_price }} $</span
+                    >
+                  </div>
+                  <div class="price-item">
+                    <span class="price-label">Amazon:</span>
+                    <span class="price-value"
+                      >{{ exodiaCard.card_prices.0.amazon_price }} $
+                    </span>
+                  </div>
                 </div>
 
                 <div class="heart-button">
-                  <ion-icon name="heart"></ion-icon>
+                  <ion-icon
+                    class="heart-color{% if exodiaCard.id in liked_cards %} active{% endif %}"
+                    name="heart"
+                    data-card-id="{{ exodiaCard.id }}"
+                  ></ion-icon>
                 </div>
               </div>
             </div>
@@ -367,11 +417,14 @@
       </div>
 
       <div class="base_text">
-        <h2>Three Gods</h2>
+        <h2>三幻神</h2>
         <br />
-        <span>good boy</span>
+        <span
+          >지금 <b>신</b>의 힘으로, 사신을 물리치겠노라! 나와라,
+          <b>삼환신!!</b></span
+        >
         <br /><br />
-        <span class="line">Legend Cards</span>
+        <span class="line"><b>Egyptian God</b></span>
       </div>
 
       <div class="threegod">
@@ -445,7 +498,11 @@
                   ><br />
                 </div>
                 <div class="heart-button">
-                  <ion-icon name="heart"></ion-icon>
+                  <ion-icon
+                    class="heart-color{% if threegodCard.id in liked_cards %} active{% endif %}"
+                    name="heart"
+                    data-card-id="{{ threegodCard.id }}"
+                  ></ion-icon>
                 </div>
               </div>
             </div>
@@ -480,6 +537,7 @@
     <div class="play-button">
       <i class="fas fa-play"></i>
     </div>
+    <audio id="audio" src="{% static 'Ryugiohproject_app/bgm.mp3' %}"></audio>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const openModalButtons = document.querySelectorAll(
@@ -510,16 +568,76 @@
           });
         });
 
+        // 하트버튼
+        // 모든 하트 버튼을 선택합니다.
         const heartIcons = document.querySelectorAll("ion-icon");
+
+        // 각 하트 버튼에 대한 클릭 이벤트를 처리합니다.
         heartIcons.forEach((icon) => {
           icon.addEventListener("click", () => {
-            icon.classList.toggle("active");
-            if (icon.classList.contains("active")) {
-              console.log("Heart is active");
-            } else {
-              console.log("Heart is inactive");
-            }
+            // 클릭된 버튼의 카드 ID를 가져옵니다.
+            const cardId = icon.getAttribute("data-card-id");
+            console.log(cardId);
+
+            // AJAX 요청을 보내어 서버에 좋아요 상태를 변경합니다.
+            fetch("/like-toggle/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // CSRF 토큰을 포함합니다.
+              },
+              body: JSON.stringify({ card_id: cardId }), // 카드 ID를 요청 본문에 포함합니다.
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // 서버에서 반환된 결과에 따라 버튼의 색상을 변경합니다.
+                if (data.result === "like") {
+                  icon.classList.add("active"); // 좋아요일 경우, 버튼에 빨간색을 추가합니다.
+                } else if (data.result === "unlike") {
+                  icon.classList.remove("active"); // 좋아요 취소일 경우, 버튼의 빨간색을 제거합니다.
+                }
+              })
+              .catch((error) => console.error("Error:", error));
           });
+        });
+
+        // CSRF 토큰을 가져오는 함수입니다.
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // 쿠키의 이름이 일치하는 경우, 값을 추출합니다.
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(
+                  cookie.substring(name.length + 1)
+                );
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+      });
+    </script>
+    <script>
+      // 음악재생 버튼
+      document.addEventListener("DOMContentLoaded", function () {
+        const playButton = document.querySelector(".play-button");
+        const audio = document.getElementById("audio");
+        const icon = playButton.querySelector("i");
+
+        playButton.addEventListener("click", function () {
+          if (audio.paused) {
+            audio.play();
+            icon.classList.remove("fa-play");
+            icon.classList.add("fa-pause");
+          } else {
+            audio.pause();
+            icon.classList.remove("fa-pause");
+            icon.classList.add("fa-play");
+          }
         });
       });
     </script>

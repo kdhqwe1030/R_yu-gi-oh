@@ -1,33 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>My Page</title>
-    </head>
-    <body>
-        <h1>Personal Information</h1>
-        <ul>
-            <li>ID: {{ info.username }}</li>
-            <li>Name: {{ info.name }}</li>
-            <li>Email: {{ info.email }}</li>
-        </ul>
-        <ul>
-            {%for like in info.like_list%}
-            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <p>Card Name: {{ like.card.name }}</p>
-                <p>Type: {{ like.card.type }}</p>
-                <p>Frame Type: {{ like.card.frameType }}</p>
-                <p>Description: {{ like.card.desc }}</p>
-                <p>Attack: {{ like.card.atk }}</p>
-                <p>Defense: {{ like.card.defense }}</p>
-                <p>Level: {{ like.card.level }}</p>
-                <p>Race: {{ like.card.race }}</p>
-                <p>Attribute: {{ like.card.attribute }}</p>
-                <p>Card Images: {{ like.card.card_images }}</p>
-                <p>Card Prices: {{ like.card.card_prices }}</p>
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CardPedia</title>
+    <link
+      href="{% static 'Ryugiohproject_app/logo.png' %}"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/index.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/menu.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/card.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/footer.css' %}"
+    />
+    <style>
+      /* 모달모달모달모달 */
+      /* 모달모달모달모달 */
+      /* 모달모달모달모달 */
+      /* 모달모달모달모달 */
+      .modal,
+      .modal2 {
+        display: none;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 100;
+      }
+      .modal_body,
+      .modal_body2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 1200px;
+        min-height: 600px;
+        height: auto;
+        padding: 20px;
+        text-align: center;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .modal-content,
+      .modal-content2 {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .modal_body > .card,
+      .modal_body2 > .card {
+        flex: 1;
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        margin-right: 20px;
+      }
+      .card_info,
+      .card_info2 {
+        flex: 1;
+        text-align: left;
+        margin-left: 50px;
+        position: relative;
+      }
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .btn-open-modal,
+      .btn-open-modal2 {
+        border-radius: 10px;
+        font-size: 15px;
+        border: none;
+        background-color: burlywood;
+        padding: 10px 20px;
+        margin-top: 20px;
+      }
+
+      /* 버튼버튼버튼버튼버튼 */
+      /* 버튼버튼버튼버튼버튼 */
+      /* 버튼버튼버튼버튼버튼 */
+      /* 버튼버튼버튼버튼버튼 */
+      .w-btn-outline,
+      .w-btn-outline2 {
+        position: relative;
+        padding: 15px 30px;
+        border-radius: 15px;
+        font-family: "paybooc-Light", sans-serif;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.25s;
+        margin: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .w-btn-skin-outline {
+        border: 3px solid #f8e6e0;
+        color: #6e6e6e;
+      }
+      .w-btn-skin-outline:hover {
+        background-color: #f8e6e0;
+        color: #6e6e6e;
+        cursor: pointer;
+      }
+
+      .w-btn-outline:active {
+        transform: scale(1.5);
+      }
+
+      /* 하트하트하트하트 */
+      /* 하트하트하트하트 */
+      /* 하트하트하트하트 */
+      /* 하트하트하트하트 */
+      /* 하트하트하트하트 */
+      .large-font {
+        font-size: xxx-large;
+      }
+      .top-20 {
+        position: relative;
+        top: 20vh;
+      }
+      ion-icon.active {
+        animation: like 0.5s 1;
+        fill: red;
+        stroke: none;
+      }
+      ion-icon {
+        fill: transparent;
+        stroke: black;
+        stroke-width: 30;
+        transition: all 0.5s;
+        width: 30px; /* 하트 아이콘의 너비를 조정 */
+        height: 30px; /* 하트 아이콘의 높이를 조정 */
+      }
+      @-webkit-keyframes like {
+        0% {
+          transform: scale(1);
+        }
+        90% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+      .heart-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+      }
+
+      table {
+        margin-top: 50px;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+      .narrow {
+        width: 15%;
+      }
+      .wide {
+        width: 35%;
+      }
+      .table_highlight {
+        background-color: #f8e6e0;
+        font-size: 20px;
+      }
+
+      .card_info_desc {
+        margin-top: 50px;
+
+        border: 1px solid;
+        text-align: left;
+      }
+      .card_info_price {
+        margin-top: 30px;
+        font-size: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .price-item {
+        margin: 5px 0;
+      }
+
+      .price-label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="middle-menu">
+      <ul class="left-memu">
+        <li class="dropdown">
+          <span class="dropbtn">캐릭터 덱 보기</span>
+          <div class="dropdown-content">
+            <a href="/eachCharacter?character=yugi">유우기</a>
+            <a href="/eachCharacter?character=kaiba">카이바</a>
+            <a href="/eachCharacter?character=joey">조이</a>
+            <a href="/eachCharacter?character=pegasus">페가수스</a>
+          </div>
+        </li>
+        <li><a href="/allCards">모든 카드 보기</a></li>
+        <li><a href="/gameGuide">게임 가이드</a></li>
+      </ul>
+      <ul class="center-logo">
+        <a href="/" class="center-logo-image"
+          ><img
+            src="{% static 'Ryugiohproject_app/logo.png' %}"
+            width="80"
+            height="80"
+        /></a>
+      </ul>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        <li><a href="{% url 'logout' %}">로그아웃</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">로그인 / 회원가입</a></li>
+        {% endif %}
+      </ul>
+    </header>
+    <section class="middle-header"></section>
+    <setcion class="base_div" style="margin-top: 50px">
+      <div class="base_text">
+        <h2>WISH LIST</h2>
+        <br /><br />
+        <span class="line"><b>좋아요 누른 카드 보기</b></span>
+      </div>
+
+      {%for like in info.like_list%}
+      <div class="fade-wrap">
+        <div class="container">
+          <div class="overlay"></div>
+          <div
+            class="card"
+            style="background-image: url('{{ like.card.card_images }}');"
+          ></div>
+        </div>
+        <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
+      </div>
+
+      <div class="modal">
+        <div class="modal_body">
+          <span class="close-modal">X</span>
+          <h2 class="modal-title">{{like.card.name}}</h2>
+          <div class="modal-content">
+            <div class="fade-wrap">
+              <div class="container">
+                <div class="overlay"></div>
+                <div
+                  class="card"
+                  style="background-image: url('{{ like.card.card_images }}');"
+                ></div>
+              </div>
             </div>
-            {%endfor%}
-        </ul>
-    </body>
+            <div class="card_info">
+              <table>
+                <colgroup>
+                  <col class="narrow" />
+                  <col class="wide" />
+                  <col class="narrow" />
+                  <col class="wide" />
+                </colgroup>
+                <tr>
+                  <td class="table_highlight">속성</td>
+                  <td>{{like.card.attribute}}</td>
+                  <td class="table_highlight">레벨</td>
+                  <td>{{like.card.level}}</td>
+                </tr>
+                <tr>
+                  <td class="table_highlight">공격력</td>
+                  <td>{{like.card.atk}}</td>
+                  <td class="table_highlight">수비력</td>
+                  <td>{{like.card.defense}}</td>
+                </tr>
+                <tfoot>
+                  <tr>
+                    <td colspan="4">{{like.card.type}}/{{like.card.race}}</td>
+                  </tr>
+                </tfoot>
+              </table>
+              <table class="card_info_desc">
+                <tr>
+                  <td class="table_highlight">카드 설명</td>
+                </tr>
+                <tr>
+                  <td>{{like.card.desc}}</td>
+                </tr>
+              </table>
+              <div class="card_info_price">
+                <div class="price-item">
+                  <span class="price-label">eBay:</span>
+                  <span class="price-value"
+                    >{{ like.card.card_prices.0.ebay_price }} $</span
+                  >
+                </div>
+                <div class="price-item">
+                  <span class="price-label">Amazon:</span>
+                  <span class="price-value"
+                    >{{ like.card.card_prices.0.amazon_price }} $
+                  </span>
+                </div>
+              </div>
+
+              <div class="heart-button">
+                <ion-icon
+                  class="heart-color active"
+                  name="heart"
+                  data-card-id="{{ like.card.id }}"
+                ></ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </setcion>
+    <footer>
+      <p>
+        <br />
+        <span>개인정보 처리방침 | 이용약관 </span><br />
+        <span>All rights reserved @ CardPedia</span>
+      </p>
+      <nav>
+        <span>reference:</span>
+        <a href="https://github.com/kdhqwe1030/R_yu-gi-oh" target="_blank"
+          >Github</a
+        >
+        <a
+          href="https://jun-n.notion.site/c6338f7a0e624ed1ad7b7cc8a0634686?pvs=4"
+          target="_blank"
+          >Notion-1</a
+        >
+        <a
+          href="https://oxidized-ermine-630.notion.site/a14cd1a3d000462f9489936e1c052372?pvs=4"
+          target="_blank"
+          >Notion-2</a
+        ><br /><br />
+      </nav>
+    </footer>
+    <div class="play-button">
+      <i class="fas fa-play"></i>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const openModalButtons = document.querySelectorAll(
+          ".w-btn-outline, .w-btn-outline2"
+        );
+        const closeModalButtons = document.querySelectorAll(
+          ".close-modal, .close-modal2"
+        );
+        const modals = document.querySelectorAll(".modal, .modal2");
+
+        openModalButtons.forEach((button, index) => {
+          button.addEventListener("click", () => {
+            modals[index].style.display = "flex";
+          });
+        });
+
+        closeModalButtons.forEach((button, index) => {
+          button.addEventListener("click", () => {
+            modals[index].style.display = "none";
+          });
+        });
+
+        window.addEventListener("click", (event) => {
+          modals.forEach((modal) => {
+            if (event.target === modal) {
+              modal.style.display = "none";
+            }
+          });
+        });
+
+        // 하트버튼
+        // 모든 하트 버튼을 선택합니다.
+        const heartIcons = document.querySelectorAll("ion-icon");
+
+        // 각 하트 버튼에 대한 클릭 이벤트를 처리합니다.
+        heartIcons.forEach((icon) => {
+          icon.addEventListener("click", () => {
+            // 클릭된 버튼의 카드 ID를 가져옵니다.
+            const cardId = icon.getAttribute("data-card-id");
+            console.log(cardId);
+
+            // AJAX 요청을 보내어 서버에 좋아요 상태를 변경합니다.
+            fetch("/like-toggle/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // CSRF 토큰을 포함합니다.
+              },
+              body: JSON.stringify({ card_id: cardId }), // 카드 ID를 요청 본문에 포함합니다.
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // 서버에서 반환된 결과에 따라 버튼의 색상을 변경합니다.
+                if (data.result === "like") {
+                  icon.classList.add("active"); // 좋아요일 경우, 버튼에 빨간색을 추가합니다.
+                } else if (data.result === "unlike") {
+                  icon.classList.remove("active"); // 좋아요 취소일 경우, 버튼의 빨간색을 제거합니다.
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+
+        // CSRF 토큰을 가져오는 함수입니다.
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // 쿠키의 이름이 일치하는 경우, 값을 추출합니다.
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(
+                  cookie.substring(name.length + 1)
+                );
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+      });
+    </script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="{% static 'Ryugiohproject_app/js/card.js' %}"></script>
+    <script src="{% static 'Ryugiohproject_app/js/menu.js' %}"></script>
+    <script src="{% static 'Ryugiohproject_app/js/scroll.js' %}"></script>
+  </body>
 </html>

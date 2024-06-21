@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CardPedia</title>
+    <link
+      href="{% static 'Ryugiohproject_app/logo.png' %}"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/index.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/eachCharacter/menu.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/card.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Ryugiohproject_app/css/footer.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />                 
+
+    <style>
+      
+        /* .base_div{
+            font-size: 20px;
+        } */
+        .text-wrap{
+            background: #ef77e3; font-weight:bold;
+        border-radius: 5px;
+        display: inline-block;
+        padding: 2px 12px 4px 10px;
+        font-weight: 600;
+        color: #fff;
+        font-size: 14px;
+        }
+        .base_div  li{
+            margin-top:70px;
+        }
+      .play-button {
+        width: 50px;
+        height: 50px;
+        background-color: grey;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 추가 */
+      }
+
+      .play-button i {
+        color: white;
+        font-size: 24px;
+      }
+      .img_photo{
+        background-image: url('/static/Ryugiohproject_app/gameGuidImg.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="middle-menu">
+      <ul class="left-memu">
+        <li class="dropdown">
+          <span class="dropbtn">캐릭터 덱 보기</span>
+          <div class="dropdown-content">
+            <a href="/eachCharacter?character=yugi">유우기</a>
+            <a href="/eachCharacter?character=kaiba">카이바</a>
+            <a href="/eachCharacter?character=joey">조이</a>
+            <a href="/eachCharacter?character=pegasus">페가수스</a>
+          </div>
+        </li>
+        <li><a href="/allCards">모든 카드 보기</a></li>
+        <li><a href="/gameGuide">게임 가이드</a></li>
+      </ul>
+      <ul class="center-logo">
+        <a href="/" class="center-logo-image"
+          ><img
+            src="{% static 'Ryugiohproject_app/logo.png' %}"
+            width="80"
+            height="80"
+        /></a>
+      </ul>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        <li><a href="{% url 'logout' %}">로그아웃</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">로그인 / 회원가입</a></li>
+        {% endif %}
+      </ul>
+    </header>
+    <section class="middle-header"></section>
+
+    <section class="base_div" style="display: block; padding: 60px;font-size: 20px;margin-top: 50px;">
+      <h1 >게임하는 방법</h1>
+      <hr style="border: solid 2px #6f4e37" />
+        <div style="display: flex;">
+            <div style="flex: 1;">
+                <br>
+                <br>
+                <br>        
+                <br>
+                <br>
+    
+      <span><br>유희왕 오피셜 카드게임은 너의 덱을 사용하여, 상대와 <span style="color: #ef77e3; font-weight:bold;">[듀얼]</span>하는 게임이야!<br><br><br>
+        너의 <span style="color: #ef77e3; font-weight:bold;">[턴]</span>과 상대의 <span style="color: #ef77e3; font-weight:bold;">[턴]</span>을 교대로 반복하여, <span style="color: #ef77e3; font-weight:bold;">[패]</span>로부터 <span style="color: #ef77e3; font-weight:bold;">[소환]</span>한 몬스터로 상대를 공격하여,<br> 먼저 상대의 <span style="color: #ef77e3; font-weight:bold;">[LP]</span>를 0으로 만들면 너의 승리!</span><br><br><br><br><br>
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNafhSj19BqfnnGgRg5N70thGKNTOC7j8hM4IPet1xzZkC15gR-Dn59O314g&s" width="30" height="30"><a href="#card_type">카드의 종류</a><br>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNafhSj19BqfnnGgRg5N70thGKNTOC7j8hM4IPet1xzZkC15gR-Dn59O314g&s" width="30" height="30"><a href="#cardqhsmsqkdqjq">카드 보는 방법</a><br>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNafhSj19BqfnnGgRg5N70thGKNTOC7j8hM4IPet1xzZkC15gR-Dn59O314g&s" width="30" height="30"><a href="#zkemshgsmsqkdqjq">카드 놓는 방법(듀얼 필드)</a><br>
+
+    
+    </div>
+        <div class="img_photo" style="flex: 1; height: 800px;"></div></div>
+      <h1 id="card_type">카드의 종류</h1>
+      <hr style="border: solid 2px #6f4e37" />
+      <span
+        >카드는 크게 나누어서 「몬스터 카드」 「마법 카드」 「함정 카드」
+        3종류의 카드가 있어!</span
+      >
+
+        
+      <ul >
+        <li>
+            <section class="monster" style="display: flex">
+            <img src="https://www.yugioh.co.kr/data/image/game_method/type_of_card_monster_new.jpg"/>
+            <div style="flex: 1; margin-left: 50px ;margin-right: 50px ;">  
+                      <h2>몬스터 카드</h2>
+            <hr style="border: solid 2px #6f4e37" />
+            <span
+              >배틀의 주역!        <br>
+              <span style="color: #ef77e3; font-weight:bold;">[효과]</span>를 가지지 않은 「일반 몬스터」        <br>
+              특수한 <span style="color: #ef77e3; font-weight:bold;">[효과]</span>를 가진 「효과 몬스터」        <br>
+              이 카드들 외에도 「의식 몬스터」 「융합 몬스터」 「싱크로 몬스터」 「엑시즈 몬스터」 「펜듈럼 몬스터」라고 하는 강력한 몬스터가 있어!        <br>
+              자세한 것은 공식 룰 북을 보자!</span
+            >
+      
+            <ul></div></section></li>
+        <li><section class="magic" style="display: flex">
+            <img src="https://www.yugioh.co.kr/data/image/game_method/type_of_card_magic_new.jpg"/>
+            <div style="flex: 1; margin-left: 50px ;margin-right: 50px ;">  
+     
+                <h2>매직 카드</h2>
+            <hr style="border: solid 2px #6f4e37" />
+            <span>
+                <span style="color: #ef77e3; font-weight:bold;">[발동]</span>하면 여러 가지 <span style="color: #ef77e3; font-weight:bold;">[효과]</span>를 발휘할 수 있어! 듀얼에 빼놓을 수 없는 카드야!</span
+            >
+      
+            <ul></div></section></li>
+                <li><section class="trap" style="display: flex">
+                    <img src="https://www.yugioh.co.kr/data/image/game_method/type_of_card_trap_new.jpg"/>
+                    <div style="flex: 1; margin-left: 50px ;margin-right: 50px ;">  
+  
+                        <h2>함정 카드</h2>
+                    <hr style="border: solid 2px #6f4e37" />
+                    <span
+                      >세트를 하고 나서 다음 턴까지 <span style="color: #ef77e3; font-weight:bold;">[발동]</span>할 수 없지만, 강력한 카드가 많고,<br> 잘 사용하면 대역전의 찬스를 만들 수 있어! 상대의 허를 찔러 함정 카드를 <span style="color: #ef77e3; font-weight:bold;">[발동]</span> 시키자!</span
+                    >
+              
+                    <ul></div></section></li>
+      </ul>
+
+
+
+
+      <br>
+      <br>
+      <br>        
+      <br>
+      <br>
+
+      <h1 id="cardqhsmsqkdqjq">카드 보는 방법</h1>
+      <hr style="border: solid 2px #6f4e37" />
+      <span
+        >카드는 크게 나누어서 「몬스터 카드」 「마법 카드」 「함정 카드」
+        3종류의 카드가 있어!</span
+      >
+        <br>
+        <br>
+        <br>
+
+      <ul>
+        <li><section class="monster" style="display: flex">
+            <img src="https://www.yugioh.co.kr/data/image/game_method/view_of_card_monster_new.jpg" style="flex: 1;" /> 
+            <div style=" flex: 3;margin-left: 120px;">        
+                <h2>몬스터 카드</h2>
+            <hr style="border: solid 2px #6f4e37" />
+            <span
+            ><span class="text-wrap">① 카드명</span><br>
+            카드의 이름이 적혀 있어!<br><br>
+            <span class="text-wrap">② 속성</span><br>
+            크게 6종류의 속성이 있어. 효과 중에서는 특정 속성만 영향을 받는 것도 있어!<br><br>
+            <span class="text-wrap">③ 레벨</span><br>
+            ★의 숫자는 몬스터의 레벨을 나타내고 있어!<br><br>
+            <span class="text-wrap">④ 몬스터 정보</span><br>
+            카드의 효과나 사용 방법이 적혀있어! (일반 몬스터는 예외)<br><br>
+            <span class="text-wrap">⑤ 종족</span><br>
+            몬스터는 ○○족으로 종족이 나누어져 있어. 종족에 따라 특기와 약점이 있기도 해!<br><br>
+            <span class="text-wrap">⑥ 공격력?방어력</span><br>
+            ATK는 공격력이고, DEF는 방어력이야. 이 수치가 높은 만큼 전투에서 유리해!<br><br></span
+          ><br>
+      
+            <ul></div></section></li>
+        <li><section class="magic" style="display: flex">
+            <img src="https://www.yugioh.co.kr/data/image/game_method/view_of_card_magic_new.jpg"style="flex: 1;"/>
+            <div style=" flex: 3;margin-left: 120px;">         
+            <h2>마법 카드</h2>
+            <hr style="border: solid 2px #6f4e37" />
+            <span
+            ><br><span class="text-wrap">① 카드명</span><br>
+            카드의 이름이 적혀 있어!<br><br>
+            <span class="text-wrap">② 카드 종류</span> <br>
+            마법 카드는 「魔」(마법) 마크가 붙어 있어! <br><br>
+            <span class="text-wrap">③ 효과 아이콘</span> <br>
+            마법 카드의 기본적인 효과를 6종류로 나누어 표시하고 있는 아이콘이야 <br><br>
+            <span class="text-wrap"> ④ 효과 설명</span><br>
+            마법 카드의 발동 조건과 효과가 적혀있어! 잘 읽고 사용해 보자!
+<br></span
+          ><br>
+      
+            <ul></div></section></li>
+                <li><section class="trap" style="display: flex">
+                    <img src="https://www.yugioh.co.kr/data/image/game_method/view_of_card_trap_new.jpg" style="flex: 1;"/>
+                    <div style=" flex: 3;margin-left: 120px;">    
+                    <h2>함정 카드</h2>
+                    <hr style="border: solid 2px #6f4e37" />
+                    <span
+                      ><br><span class="text-wrap">① 카드명</span><br>
+                      카드의 이름이 적혀 있어!<br><br>
+                      <span class="text-wrap">② 카드 종류</span> <br>
+                      함정 카드에는 「?」(함정) 마크가 붙어 있어! <br><br>
+                      <span class="text-wrap">③ 효과 아이콘</span> <br>
+                      함정 카드의 기본적인 효과를 3종류로 나누어 표시하고 있는 아이콘이야 <br><br>
+                      <span class="text-wrap"> ④ 효과 설명</span><br>
+                      함정 카드의 발동 조건과 효과가 적혀있어! 잘 읽고 사용해 보자!<br></span
+                    ><br>
+
+                    <ul></div></section></li>
+      </ul>
+
+      <br>
+      <br>
+      <br>
+      
+      <h1 id="zkemshgsmsqkdqjq">카드 놓는 방법(듀얼 필드)</h1>
+      <hr style="border: solid 2px #6f4e37" />
+      <br>
+      <br>
+      <br>
+      <div style="display: flex;">
+      <img src="https://www.yugioh.co.kr/data/image/game_method/duel_fild_new.jpg" style="flex: 1;"/>
+      <div style="flex: 1;margin-left: 50px;">
+      <span class="text-wrap">① 메인 몬스터 존</span><br>
+      몬스터를 소환할 수 있는 장소는 여기다! 최대 5장의 몬스터를 소환 할 수 있어!<br><br>
+      <span class="text-wrap">② 마법 & 함정 존 (펜듈럼 존)</span><br>
+      마법 & 함정 카드를 발동 / 세트 할 때 놓는 장소야! 또한 좌우 양쪽의 마법 / 함정 존은 펜듈럼 몬스터를 마법 카드로서 놓는 「펜듈럼 존」으로 취급되어 펜듈럼 효과를 사용하거나, 펜듈럼 소환을 사용할 수 있어!<br><br>
+      <span class="text-wrap">③ 필드 존</span><br>
+      필드 마법 카드를 놓는 장소야. 필드 전체에 효과를 부여하는 카드가 많이 있어!<br><br>
+      <span class="text-wrap">④ 묘지</span><br>
+      파괴된 몬스터나 사용이 끝난 마법, 함정 카드는 여기에 놓는 거야!<br><br>
+      <span class="text-wrap">⑤ 엑스트라 덱 존</span><br>
+      특수한 방법으로 소환 할 수 있는 카드(융합 / 싱크로 / 엑시즈 / 링크 몬스터)가 있는 덱을 여기에 뒷면으로 놓자!<br><br>
+      <span class="text-wrap">⑥ 덱 존</span><br>
+      자신의 덱은 여기에 뒷면 표시로 놓자! 여기서부터 카드를 드로우 하는 거야!<br><br>
+      <span class="text-wrap">⑦ 엑스트라 몬스터 존</span><br>
+      엑스트라 덱으로부터 특수 소환 되는 몬스터 전용 존. 좌우로 한 개씩 있지만, 기본적으로 플레이어 한 사람당 1개씩 사용 가능해!</div><br><br>
+      <div></div></div>
+
+      <br>
+      <br>
+      <br>
+
+    </section>
+    <footer>
+      <p>
+        <br />
+        <span>개인정보 처리방침 | 이용약관 </span><br />
+        <span>All rights reserved @ CardPedia</span>
+      </p>
+      <nav>
+        <span>reference:</span>
+        <a href="https://github.com/kdhqwe1030/R_yu-gi-oh" target="_blank"
+          >Github</a
+        >
+        <a
+          href="https://jun-n.notion.site/c6338f7a0e624ed1ad7b7cc8a0634686?pvs=4"
+          target="_blank"
+          >Notion-1</a
+        >
+        <a
+          href="https://oxidized-ermine-630.notion.site/a14cd1a3d000462f9489936e1c052372?pvs=4"
+          target="_blank"
+          >Notion-2</a
+        ><br /><br />
+      </nav>
+    </footer>
+    <div class="play-button">
+      <i class="fas fa-play"></i>
+    </div>
+    <audio id="audio" src="{% static 'Ryugiohproject_app/bgm.mp3' %}"></audio>
+
+    <script>
+      // 음악재생 버튼
+      document.addEventListener('DOMContentLoaded', function () {
+        const playButton = document.querySelector('.play-button');
+        const audio = document.getElementById('audio');
+        const icon = playButton.querySelector('i');
+
+        playButton.addEventListener('click', function () {
+          if (audio.paused) {
+            audio.play();
+            icon.classList.remove('fa-play');
+            icon.classList.add('fa-pause');
+          } else {
+            audio.pause();
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
+          }
+        });
+      });
+    </script>
+
+    <script src="{% static 'Ryugiohproject_app/js/card.js' %}"></script>
+  </body>
+</html>

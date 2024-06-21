@@ -4,7 +4,6 @@ body {
   margin: 0;
   background-color: white;
   scroll-behavior: smooth;
-  display: flex;
   flex-direction: column;
 }
 
@@ -49,7 +48,6 @@ ul {
   justify-content: center; /* 중앙 정렬을 위해 추가 */
   /* 그림자 적용 */
   box-shadow: rgba(100, 100, 100, 0.2) 0px 0px 29px 0px;
-  flex: 1; /* 추가된 부분 */
 }
 
 .base_div .base_text {
@@ -59,7 +57,11 @@ ul {
   text-align: center;
   font-size: 25px;
 }
-
+#card-container {
+  display: flex;
+  flex-wrap: wrap; /* 줄바꿈을 위한 속성 */
+  justify-content: center;
+}
 /* 카드 나타나기 */
 .base_div .fade-wrap {
   transition: 2s;
@@ -70,6 +72,10 @@ ul {
   left: -50px;
 
   margin-bottom: 20px;
+}
+.base_div .fade-wrap.fade-in {
+  opacity: 1;
+  left: 0;
 }
 
 .line {
@@ -99,20 +105,14 @@ ul {
   line-height: 0px;
 }
 
-.base_div .fade-wrap.fade-in {
-  opacity: 1;
-  left: 0;
-}
-
 .middle-header {
   width: 100vw;
   margin-top: 200px;
   background-position: center center;
-  background-color: yellow;
+  background-color: black;
   height: 580px;
   background-image: url('/static/main_banner.png');
   background-repeat: no-repeat;
-  background-color: black;
 }
 
 .middle-header img {

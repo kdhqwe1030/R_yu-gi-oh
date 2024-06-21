@@ -26,6 +26,11 @@
       rel="stylesheet"
       href="{% static 'Ryugiohproject_app/css/footer.css' %}"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
     <style>
       /* 모달모달모달모달 */
       /* 모달모달모달모달 */
@@ -204,9 +209,210 @@
         text-align: left;
       }
       .card_info_price {
-        padding-left: 30%;
         margin-top: 30px;
         font-size: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .price-item {
+        margin: 5px 0;
+      }
+
+      .price-label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      /* 검색 검색검색검색 검색 검색 */
+      .search {
+        position: relative;
+        width: 100vw;
+        max-width: 1500px; /* 최대 너비 설정 */
+        display: flex;
+        align-items: center;
+        justify-content: center; /* 검색 박스와 토글 버튼을 중앙 정렬 */
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+      }
+
+      .search-box {
+        display: flex;
+        flex: 1;
+        align-items: center; /* 검색 박스와 돋보기 이미지 중앙 정렬 */
+        position: relative;
+      }
+
+      .search-box > input {
+        width: 100%;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        padding: 15px 20px;
+        font-size: 18px;
+        height: 40px;
+      }
+
+      .search-box > img {
+        position: absolute;
+        right: 10px; /* 이미지 위치 조정 */
+        width: 20px;
+        cursor: pointer;
+      }
+
+      .search-warpper {
+        --accent: #04da97;
+        --border-width: 6px;
+        --border-radius: 55px;
+        --font-size: 16px;
+        height: 8vh;
+        width: 300px;
+        display: flex;
+        align-items: center; /* 토글 버튼 중앙 정렬 */
+        /* background-color: #333; */
+        font-family: sans-serif;
+        margin-left: 40px; /* 검색 박스와 토글 버튼 사이 간격 */
+      }
+
+      .search-container {
+        perspective: 800px;
+      }
+
+      .toggle {
+        position: relative;
+        border: solid var(--border-width) var(--accent);
+        border-radius: var(--border-radius);
+        transition: transform cubic-bezier(0, 0, 0.3, 2) 0.4s;
+        transform-style: preserve-3d;
+        perspective: 800px;
+        display: flex;
+      }
+
+      .toggle > input[type="radio"] {
+        display: none;
+      }
+
+      .toggle > #choice1:checked ~ #flap {
+        transform: rotateY(-180deg);
+      }
+
+      .toggle > #choice1:checked ~ #flap > .content {
+        transform: rotateY(-180deg);
+      }
+
+      .toggle > #choice2:checked ~ #flap {
+        transform: rotateY(0deg);
+      }
+
+      .toggle > label {
+        display: inline-block;
+        min-width: 70px;
+        padding: 15px;
+        font-size: var(--font-size);
+        text-align: center;
+        color: var(--accent);
+        cursor: pointer;
+      }
+
+      .toggle > label,
+      .toggle > #flap {
+        font-weight: bold;
+        text-transform: capitalize;
+      }
+
+      .toggle > #flap {
+        position: absolute;
+        top: calc(0px - var(--border-width));
+        left: 50%;
+        height: calc(100% + var(--border-width) * 2);
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--font-size);
+        background-color: var(--accent);
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        transform-style: preserve-3d;
+        transform-origin: left;
+        transition: transform cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+      }
+
+      .toggle > #flap > .content {
+        color: #333;
+        transition: transform 0s linear 0.25s;
+        transform-style: preserve-3d;
+      }
+      #result {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative; /* 추가 */
+      }
+      #loading {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+
+      .result_print {
+        display: none;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        /* width: 500px;
+        height: 500px; */
+      }
+      .pull {
+        position: relative;
+        margin: 50px;
+        padding: 20px;
+        /* width: 200px;
+        height: 60px; */
+        color: #fff;
+        border-radius: 10px;
+        background-color: #000;
+        display: flex;
+        font-size: 20px;
+      }
+      .pull:after {
+        content: "";
+        position: absolute;
+        top: 21px;
+        right: -30px;
+        border-left: 30px solid #000;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+      }
+      .Doctor {
+        background-image: url("/static/Ryugiohproject_app/Doctor.webp");
+        background-color: yellow;
+        background-repeat: no-repeat;
+        height: 150px;
+        width: 150px;
+        background-size: cover;
+        display: flex;
+      }
+
+      .play-button {
+        width: 50px;
+        height: 50px;
+        background-color: grey;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 추가 */
+      }
+
+      .play-button i {
+        color: white;
+        font-size: 24px;
       }
     </style>
   </head>
@@ -216,14 +422,14 @@
         <li class="dropdown">
           <span class="dropbtn">캐릭터 덱 보기</span>
           <div class="dropdown-content">
-            <a href="eachCharacter?character=yugi">유우기</a>
-            <a href="eachCharacter?character=kaiba">카이바</a>
-            <a href="eachCharacter?character=joey">조이</a>
-            <a href="eachCharacter?character=pegasus">페가수스</a>
+            <a href="/eachCharacter?character=yugi">유우기</a>
+            <a href="/eachCharacter?character=kaiba">카이바</a>
+            <a href="/eachCharacter?character=joey">조이</a>
+            <a href="/eachCharacter?character=pegasus">페가수스</a>
           </div>
         </li>
-        <li><a href="allCards">모든 카드 보기</a></li>
-        <li><a href="one.html">게임 가이드</a></li>
+        <li><a href="/allCards">모든 카드 보기</a></li>
+        <li><a href="/gameGuide">게임 가이드</a></li>
       </ul>
       <ul class="center-logo">
         <a href="/" class="center-logo-image"
@@ -236,95 +442,171 @@
       <ul>
         {% if user.is_authenticated %}
         <li><a href="{% url 'my_page' %}">마이페이지</a></li>
+        <li><a href="{% url 'logout' %}">로그아웃</a></li>
         {% else %}
-        <li><a href="#">로그인 / 회원가입</a></li>
+        <li><a href="{% url 'login' %}">로그인 / 회원가입</a></li>
         {% endif %}
       </ul>
     </header>
     <section class="middle-header"></section>
-    <setcion class="base_div">
-      <div class="base_text">
-        <h2>Egyptian God Cards</h2>
-        <br />
-        <span>Whosoever breaks this seal will know infinite power.</span>
-        <br /><br />
-        <span class="line">Legend Cards</span>
-      </div>
-
-      {% for card in card_data %}
-      <div class="fade-wrap">
-        <div class="container">
-          <div class="overlay"></div>
-          <div
-            class="card"
-            style="background-image: url('{{ card.card_images }}');"
-          ></div>
+    <div>
+      <div class="search">
+        <div class="search-box">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="검색어 입력"
+            width="70vh"
+            height="200px"
+            onkeyup="onPress()"
+          />
+          <img
+            id="search-button"
+            onclick="onCheck()"
+            src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
+          />
         </div>
-        <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
+        <div class="search-warpper">
+          <div class="search-container">
+            <form class="toggle">
+              <input type="radio" id="choice1" name="choice" value="creative" />
+              <label for="choice1">Standard</label>
+
+              <input
+                type="radio"
+                id="choice2"
+                name="choice"
+                value="productive"
+              />
+              <label for="choice2">AI Search</label>
+
+              <div id="flap"><span class="content">productive</span></div>
+            </form>
+          </div>
+        </div>
       </div>
 
-      <div class="modal">
-        <div class="modal_body">
-          <span class="close-modal">X</span>
-          <h2 class="modal-title">{{card.name}}</h2>
-          <div class="modal-content">
-            <div class="fade-wrap">
-              <div class="container">
-                <div class="overlay"></div>
-                <div
-                  class="card"
-                  style="background-image: url('{{ card.card_images }}');"
-                ></div>
-              </div>
-            </div>
-            <div class="card_info">
-              <table>
-                <colgroup>
-                  <col class="narrow" />
-                  <col class="wide" />
-                  <col class="narrow" />
-                  <col class="wide" />
-                </colgroup>
-                <tr>
-                  <td class="table_highlight">속성</td>
-                  <td>{{card.attribute}}</td>
-                  <td class="table_highlight">레벨</td>
-                  <td>{{card.level}}</td>
-                </tr>
-                <tr>
-                  <td class="table_highlight">공격력</td>
-                  <td>{{card.atk}}</td>
-                  <td class="table_highlight">수비력</td>
-                  <td>{{card.defense}}</td>
-                </tr>
-                <tfoot>
-                  <tr>
-                    <td colspan="4">{{card.type}}/{{card.race}}</td>
-                  </tr>
-                </tfoot>
-              </table>
-              <table class="card_info_desc">
-                <tr>
-                  <td class="table_highlight">카드 설명</td>
-                </tr>
-                <tr>
-                  <td>{{card.desc}}</td>
-                </tr>
-              </table>
-              <div class="card_info_price">
-                <span>ebay: {{ card.card_prices.0.ebay_price }}</span><br />
-                <span>amazon: {{ card.card_prices.0.amazon_price }}</span><br />
-              </div>
+      <div>
+        <div id="result" style="margin-left: auto; margin-right: auto"></div>
+        <div id="loading">
+          <img
+            src="https://studentrights.sen.go.kr/images/common/loading.gif"
+          />
+        </div>
+        <div class="result_print">
+          <div class="pull"></div>
+          <div class="Doctor"></div>
+        </div>
+      </div>
+    </div>
+    <section class="base_div" style="margin-top: 50px">
+      <div class="base_text">
+        <h2>모든 카드 보기</h2>
+        <br />
+        <span>AI 검색을 활용해 키워드로 카드를 찾아보세요!</span>
+        <br /><br />
+        <span class="line"
+          ><strong>다양한 카드 컬렉션을 탐색해보세요!</strong></span
+        >
+      </div>
 
-              <div class="heart-button">
-                <ion-icon name="heart"></ion-icon>
+      <div id="card-container">
+        {% for card in card_data|slice:":1000" %}
+        <div
+          class="fade-wrap"
+          data-name="{{ card.name }}"
+          data-attribute="{{ card.attribute }}"
+          data-level="{{ card.level }}"
+          data-atk="{{ card.atk }}"
+          data-defense="{{ card.defense }}"
+          data-type="{{ card.type }}"
+          data-race="{{ card.race }}"
+          data-desc="{{ card.desc }}"
+        >
+          <div class="container">
+            <div class="overlay"></div>
+            <div
+              class="card"
+              style="background-image: url('{{ card.card_images }}');"
+            ></div>
+          </div>
+          <button class="w-btn-outline2 w-btn-skin-outline">정보보기</button>
+        </div>
+        <div class="modal">
+          <div class="modal_body">
+            <span class="close-modal">X</span>
+            <h2 class="modal-title">{{card.name}}</h2>
+            <div class="modal-content">
+              <div class="fade-wrap">
+                <div class="container">
+                  <div class="overlay"></div>
+                  <div
+                    class="card"
+                    style="background-image: url('{{ card.card_images }}');"
+                  ></div>
+                </div>
+              </div>
+              <div class="card_info">
+                <table>
+                  <colgroup>
+                    <col class="narrow" />
+                    <col class="wide" />
+                    <col class="narrow" />
+                    <col class="wide" />
+                  </colgroup>
+                  <tr>
+                    <td class="table_highlight">속성</td>
+                    <td>{{card.attribute}}</td>
+                    <td class="table_highlight">레벨</td>
+                    <td>{{card.level}}</td>
+                  </tr>
+                  <tr>
+                    <td class="table_highlight">공격력</td>
+                    <td>{{card.atk}}</td>
+                    <td class="table_highlight">수비력</td>
+                    <td>{{card.defense}}</td>
+                  </tr>
+                  <tfoot>
+                    <tr>
+                      <td colspan="4">{{card.type}}/{{card.race}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+                <table class="card_info_desc">
+                  <tr>
+                    <td class="table_highlight">카드 설명</td>
+                  </tr>
+                  <tr>
+                    <td>{{card.desc}}</td>
+                  </tr>
+                </table>
+                <div class="card_info_price">
+                  <div class="price-item">
+                    <span class="price-label">eBay:</span>
+                    <span class="price-value"
+                      >{{ card.card_prices.0.ebay_price }} $</span
+                    >
+                  </div>
+                  <div class="price-item">
+                    <span class="price-label">Amazon:</span>
+                    <span class="price-value"
+                      >{{ card.card_prices.0.amazon_price }} $</span
+                    >
+                  </div>
+                </div>
+                <div class="heart-button">
+                  <ion-icon
+                    name="heart"
+                    data-card-id="{{ card.id }}"
+                  ></ion-icon>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </setcion>
+    </section>
     <footer>
       <p>
         <br />
@@ -351,6 +633,7 @@
     <div class="play-button">
       <i class="fas fa-play"></i>
     </div>
+    <audio id="audio" src="{% static 'Ryugiohproject_app/bgm.mp3' %}"></audio>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const openModalButtons = document.querySelectorAll(
@@ -381,16 +664,258 @@
           });
         });
 
+        // 하트버튼
+        // 모든 하트 버튼을 선택합니다.
         const heartIcons = document.querySelectorAll("ion-icon");
+
+        // 각 하트 버튼에 대한 클릭 이벤트를 처리합니다.
         heartIcons.forEach((icon) => {
           icon.addEventListener("click", () => {
-            icon.classList.toggle("active");
-            if (icon.classList.contains("active")) {
-              console.log("Heart is active");
-            } else {
-              console.log("Heart is inactive");
-            }
+            // 클릭된 버튼의 카드 ID를 가져옵니다.
+            const cardId = icon.getAttribute("data-card-id");
+            console.log(cardId);
+
+            // AJAX 요청을 보내어 서버에 좋아요 상태를 변경합니다.
+            fetch("/like-toggle/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // CSRF 토큰을 포함합니다.
+              },
+              body: JSON.stringify({ card_id: cardId }), // 카드 ID를 요청 본문에 포함합니다.
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // 서버에서 반환된 결과에 따라 버튼의 색상을 변경합니다.
+                if (data.result === "like") {
+                  icon.classList.add("active"); // 좋아요일 경우, 버튼에 빨간색을 추가합니다.
+                } else if (data.result === "unlike") {
+                  icon.classList.remove("active"); // 좋아요 취소일 경우, 버튼의 빨간색을 제거합니다.
+                }
+              })
+              .catch((error) => console.error("Error:", error));
           });
+        });
+
+        // CSRF 토큰을 가져오는 함수입니다.
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // 쿠키의 이름이 일치하는 경우, 값을 추출합니다.
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(
+                  cookie.substring(name.length + 1)
+                );
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+      });
+    </script>
+    <script>
+      const st = {};
+
+      st.flap = document.querySelector("#flap");
+      st.toggle = document.querySelector(".toggle");
+
+      st.choice1 = document.querySelector("#choice1");
+      st.choice2 = document.querySelector("#choice2");
+
+      st.flap.addEventListener("transitionend", () => {
+        if (st.choice1.checked) {
+          st.toggle.style.transform = "rotateY(-15deg)";
+          setTimeout(() => (st.toggle.style.transform = ""), 400);
+        } else {
+          st.toggle.style.transform = "rotateY(15deg)";
+          setTimeout(() => (st.toggle.style.transform = ""), 400);
+        }
+        console.log(st.flap.children[0].textContent);
+      });
+
+      st.clickHandler = (e) => {
+        if (e.target.tagName === "LABEL") {
+          setTimeout(() => {
+            st.flap.children[0].textContent = e.target.textContent;
+          }, 250);
+        }
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        st.flap.children[0].textContent =
+          st.choice2.nextElementSibling.textContent;
+      });
+
+      document.addEventListener("click", (e) => st.clickHandler(e));
+
+      // 검색 기능을 함수로 구현
+      function searchCards() {
+        const searchInput = document.getElementById("search-input");
+        const cardContainer = document.getElementById("card-container");
+        const cards = cardContainer.querySelectorAll(".fade-wrap");
+        const searchTerm = searchInput.value.toLowerCase();
+
+        cards.forEach((card) => {
+          console.log(card.getAttribute("data-name"));
+          const name = (card.getAttribute("data-name") || "").toLowerCase();
+          const attribute = (
+            card.getAttribute("data-attribute") || ""
+          ).toLowerCase();
+          const level = (card.getAttribute("data-level") || "").toLowerCase();
+          const atk = (card.getAttribute("data-atk") || "").toLowerCase();
+          const defense = (
+            card.getAttribute("data-defense") || ""
+          ).toLowerCase();
+          const type = (card.getAttribute("data-type") || "").toLowerCase();
+          const race = (card.getAttribute("data-race") || "").toLowerCase();
+          const desc = (card.getAttribute("data-desc") || "").toLowerCase();
+
+          if (
+            name.includes(searchTerm) ||
+            attribute.includes(searchTerm) ||
+            level.includes(searchTerm) ||
+            atk.includes(searchTerm) ||
+            defense.includes(searchTerm) ||
+            type.includes(searchTerm) ||
+            race.includes(searchTerm) ||
+            desc.includes(searchTerm)
+          ) {
+            console.log(card);
+            card.style.display = "block";
+          } else {
+            console.log("실패");
+            card.style.display = "none";
+          }
+        });
+      }
+
+      function onPress() {
+        if (window.event.keyCode == 13) onCheck();
+      }
+      function onCheck() {
+        let resultPrintElements =
+          document.getElementsByClassName("result_print");
+
+        for (let i = 0; i < resultPrintElements.length; i++) {
+          resultPrintElements[i].style.display = "none";
+        }
+        if (st.flap.children[0].textContent == "Standard") {
+          searchCards();
+        } else {
+          chatGPT();
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("loading").style.display = "none";
+      });
+
+      let lastRequestTime = 0;
+      const minRequestInterval = 5000; // 최소 요청 간격 (5초)
+      function chatGPT() {
+        const currentTime = Date.now();
+        if (currentTime - lastRequestTime < minRequestInterval) {
+          alert("너무 많은 요청을 보냈습니다. 잠시 후 다시 시도하세요.");
+          return;
+        }
+
+        lastRequestTime = currentTime;
+
+        const api_key = ""; // <- API KEY 입력
+        const keywords = document.getElementById("search-input").value;
+        document.getElementById("loading").style.display = "block";
+
+        const messages = [
+          { role: "system", content: "You are a helpful assistant." },
+          {
+            role: "user",
+            content:
+              keywords +
+              "\n앞에서 말한 설명 또는 키워드는 유희왕 카드게임에 대한 키워드야. 설명도함께,  해당 키워드에 맞는 카드 5개 영어이름 5가지 정도 출력해줘, 한 줄에 글자수가 25글자가 넘어가면 줄바꿈해서 출력해줘 ",
+          },
+        ];
+
+        const data = {
+          model: "gpt-3.5-turbo",
+          temperature: 0.5,
+          n: 1,
+          messages: messages,
+        };
+
+        fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + api_key,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+
+          .then((response) => {
+            document.getElementById("loading").style.display = "none";
+            let resultPrintElements =
+              document.getElementsByClassName("result_print");
+
+            // result_print 클래스 요소의 display 속성을 flex로 설정
+            for (let i = 0; i < resultPrintElements.length; i++) {
+              resultPrintElements[i].style.display = "flex";
+            }
+
+            console.log(response);
+
+            let pullElements = document.getElementsByClassName("pull");
+            let pre = document.createElement("pre");
+
+            if (response.choices && response.choices.length > 0) {
+              pre.innerHTML = response.choices[0].message.content;
+            } else {
+              pre.innerHTML = "\n\nNo response from API.";
+            }
+
+            // Pull 클래스의 모든 요소의 내용을 현재 응답으로 변경
+            for (let i = 0; i < pullElements.length; i++) {
+              pullElements[i].innerHTML = "";
+              pullElements[i].appendChild(pre.cloneNode(true));
+            }
+
+            document.getElementById("search-input").value = "";
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("loading").style.display = "none";
+            let result = document.getElementById("result");
+            let pre = document.createElement("pre");
+            pre.innerHTML = "\n\nError: " + error.message;
+            result.appendChild(pre);
+          });
+      }
+
+      // 음악재생 버튼
+      document.addEventListener("DOMContentLoaded", function () {
+        const playButton = document.querySelector(".play-button");
+        const audio = document.getElementById("audio");
+        const icon = playButton.querySelector("i");
+
+        playButton.addEventListener("click", function () {
+          if (audio.paused) {
+            audio.play();
+            icon.classList.remove("fa-play");
+            icon.classList.add("fa-pause");
+          } else {
+            audio.pause();
+            icon.classList.remove("fa-pause");
+            icon.classList.add("fa-play");
+          }
         });
       });
     </script>
@@ -403,7 +928,5 @@
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
     <script src="{% static 'Ryugiohproject_app/js/card.js' %}"></script>
-    <script src="{% static 'Ryugiohproject_app/js/menu.js' %}"></script>
-    <script src="{% static 'Ryugiohproject_app/js/scroll.js' %}"></script>
   </body>
 </html>
