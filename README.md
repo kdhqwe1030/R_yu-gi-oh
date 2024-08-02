@@ -1,6 +1,6 @@
 
 
-# R-yu-gi-oh
+# 🎴 R-yu-gi-oh
 
 - 유희왕 카드 검색 서비스
   <br/>
@@ -70,6 +70,6 @@ https://github.com/user-attachments/assets/c699deb4-fc78-4f21-842d-d49b4184f70f
 
 
 
-## Reference
+## 📝 Reference
 
 ### [백엔드 개발 일지 - 조준화](/backend/README.md)
